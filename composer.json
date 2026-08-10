@@ -1,0 +1,15 @@
+{
+    "name": "abid/woo-ai-quotes",
+    "description": "AI-drafted, calculation-safe quotes for WooCommerce.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4",
+        "dompdf/dompdf": "^3.0"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}

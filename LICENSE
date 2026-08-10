@@ -1,0 +1,14 @@
+AI Quotes for WooCommerce is licensed under the GNU General Public License,
+version 2, or (at your option) any later version.
+
+The full license text is available at:
+https://www.gnu.org/licenses/gpl-2.0.html
+
+This is the standard license for WordPress plugins. In short: you're free to
+use, study, modify, and redistribute this software, provided derivative
+works remain under the same license.
+
+Bundled third-party library: dompdf (https://github.com/dompdf/dompdf),
+LGPL-2.1 licensed — LGPL is compatible with, and commonly bundled inside,
+GPL-licensed WordPress plugins. See vendor/dompdf/dompdf/LICENSE.LGPL after
+running `composer install`.
