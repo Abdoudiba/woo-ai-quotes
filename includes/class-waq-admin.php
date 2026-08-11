@@ -14,11 +14,17 @@ class WAQ_Admin {
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
-		add_action( 'admin_action_waq_create_draft', array( __CLASS__, 'handle_create_draft' ) );
-		add_action( 'admin_action_waq_save_quote', array( __CLASS__, 'handle_save_quote' ) );
-		add_action( 'admin_action_waq_finalize_quote', array( __CLASS__, 'handle_finalize_quote' ) );
-		add_action( 'admin_action_waq_download_pdf', array( __CLASS__, 'handle_download_pdf' ) );
-		add_action( 'admin_action_waq_delete_quote', array( __CLASS__, 'handle_delete_quote' ) );
+		// admin-post.php dispatches on admin_post_{action} (or admin_post_nopriv_*
+		// for guests) — not admin_action_{action}, which is a different hook
+		// fired by admin.php for list-table row actions. Getting this prefix
+		// wrong means nothing is ever hooked to what admin-post.php actually
+		// fires, and core's own safety net kills the request with a blank
+		// wp_die( '', 400 ) rather than silently doing nothing.
+		add_action( 'admin_post_waq_create_draft', array( __CLASS__, 'handle_create_draft' ) );
+		add_action( 'admin_post_waq_save_quote', array( __CLASS__, 'handle_save_quote' ) );
+		add_action( 'admin_post_waq_finalize_quote', array( __CLASS__, 'handle_finalize_quote' ) );
+		add_action( 'admin_post_waq_download_pdf', array( __CLASS__, 'handle_download_pdf' ) );
+		add_action( 'admin_post_waq_delete_quote', array( __CLASS__, 'handle_delete_quote' ) );
 		add_action( 'wp_ajax_waq_get_product', array( __CLASS__, 'ajax_get_product' ) );
 	}
 

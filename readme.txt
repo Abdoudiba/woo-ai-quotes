@@ -6,7 +6,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,12 @@ Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
 == Changelog ==
+
+= 0.1.1 =
+* Fix: every form submission (New Quote, Save Draft, Finalize, Download,
+  Delete) failed with a blank HTTP 400 — handlers were registered on the
+  wrong WordPress hook (`admin_action_*` instead of `admin_post_*`, the
+  hook admin-post.php actually dispatches on), so nothing ever ran.
 
 = 0.1.0 =
 * Initial release (Phase 1): AI-drafted line items, catalog matching,
