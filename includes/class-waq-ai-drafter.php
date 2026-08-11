@@ -199,7 +199,36 @@ class WAQ_AI_Drafter {
 		return $resolved;
 	}
 
+	/**
+	 * WordPress's default search requires every word in the query to match
+	 * somewhere in the post (AND across terms) — it doesn't rank partial
+	 * matches. A trailing generic/category word in a different language
+	 * than the catalog (e.g. an AI-drafted "Keyboard" against a French
+	 * "Clavier" listing) can fail the whole query even when the brand and
+	 * model earlier in the phrase would have matched cleanly on their own.
+	 * So: try the full description first, then progressively drop trailing
+	 * words and retry, stopping at a single word.
+	 */
 	private static function find_best_matching_product( $search_term ) {
+		$words = preg_split( '/\s+/', trim( (string) $search_term ) );
+		$words = array_filter( $words, 'strlen' );
+
+		while ( ! empty( $words ) ) {
+			$product = self::search_product( implode( ' ', $words ) );
+			if ( $product ) {
+				return $product;
+			}
+			array_pop( $words );
+		}
+
+		return null;
+	}
+
+	private static function search_product( $search_term ) {
+		if ( '' === trim( $search_term ) ) {
+			return null;
+		}
+
 		$query = new WP_Query(
 			array(
 				'post_type'      => 'product',

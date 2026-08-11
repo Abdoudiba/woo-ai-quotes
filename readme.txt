@@ -6,7 +6,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,14 @@ Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
 == Changelog ==
+
+= 0.1.3 =
+* Improve: catalog matching for AI-drafted line items now retries with
+  progressively fewer trailing words when the full description doesn't
+  match. WordPress's default search requires every word to match somewhere
+  in the post, so a single trailing word in a different language than the
+  catalog (e.g. "Keyboard" against a French "Clavier" listing) could fail
+  an otherwise-correct match on brand + model.
 
 = 0.1.2 =
 * Fix: the Finalize button's redirect to the PDF download used an
