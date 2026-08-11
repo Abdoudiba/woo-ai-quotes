@@ -46,6 +46,15 @@ class WAQ_Calculator {
 			return (float) $item['tax_rate'];
 		}
 
+		// Gate on the store's own tax switch first, before even considering
+		// the fallback rate — a free-text line on a store with WooCommerce
+		// taxes disabled entirely must land at 0%, exactly like a
+		// product-linked line does, not silently inherit the settings
+		// fallback rate regardless of that switch.
+		if ( ! wc_tax_enabled() ) {
+			return 0.0;
+		}
+
 		if ( ! empty( $item['product_id'] ) && function_exists( 'wc_get_product' ) ) {
 			$product = wc_get_product( $item['product_id'] );
 			if ( $product ) {
@@ -66,7 +75,7 @@ class WAQ_Calculator {
 	 * same simplification most quote-generation tools make.
 	 */
 	private static function product_tax_rate_percent( $product ) {
-		if ( ! wc_tax_enabled() || 'taxable' !== $product->get_tax_status() ) {
+		if ( 'taxable' !== $product->get_tax_status() ) {
 			return 0.0;
 		}
 

@@ -6,7 +6,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,16 @@ Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
 == Changelog ==
+
+= 0.1.2 =
+* Fix: the Finalize button's redirect to the PDF download used an
+  HTML-escaped nonce URL (from wp_nonce_url()) as a raw redirect target,
+  corrupting quote_id/_wpnonce and showing "The link you followed has
+  expired." Finalizing now redirects correctly.
+* Fix: a free-text line item's tax used the settings fallback rate even on
+  a store with WooCommerce taxes disabled entirely, while product-linked
+  lines correctly stayed untaxed — an inconsistency between the two. The
+  fallback rate now only applies when the store has tax enabled at all.
 
 = 0.1.1 =
 * Fix: every form submission (New Quote, Save Draft, Finalize, Download,

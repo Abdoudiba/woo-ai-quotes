@@ -469,12 +469,31 @@ class WAQ_Admin {
 		);
 	}
 
+	/**
+	 * Builds a raw (non-HTML-escaped) nonce'd admin-post.php URL. Deliberately
+	 * not wp_nonce_url() — that function always HTML-escapes its output
+	 * (`&` -> `&amp;`), which is correct for echoing into an href but breaks
+	 * a raw Location redirect (the literal "amp;" ends up in quote_id/
+	 * _wpnonce, corrupting both). Callers echoing this into HTML should wrap
+	 * it in esc_url() themselves at the point of output.
+	 */
+	private static function nonce_action_url( $action, $quote_id, $nonce_action ) {
+		$url = add_query_arg(
+			array(
+				'action'   => $action,
+				'quote_id' => $quote_id,
+			),
+			admin_url( 'admin-post.php' )
+		);
+		return add_query_arg( '_wpnonce', wp_create_nonce( $nonce_action ), $url );
+	}
+
 	private static function download_url( $quote_id ) {
-		return wp_nonce_url( admin_url( 'admin-post.php?action=waq_download_pdf&quote_id=' . $quote_id ), 'waq_download_' . $quote_id );
+		return self::nonce_action_url( 'waq_download_pdf', $quote_id, 'waq_download_' . $quote_id );
 	}
 
 	private static function delete_url( $quote_id ) {
-		return wp_nonce_url( admin_url( 'admin-post.php?action=waq_delete_quote&quote_id=' . $quote_id ), 'waq_delete_' . $quote_id );
+		return self::nonce_action_url( 'waq_delete_quote', $quote_id, 'waq_delete_' . $quote_id );
 	}
 
 	private static function render_notice() {
