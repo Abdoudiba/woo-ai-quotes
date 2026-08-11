@@ -1,0 +1,40 @@
+.waq-wrap #waq-items-table input[type="text"],
+.waq-wrap #waq-items-table input[type="number"] {
+	width: 100%;
+}
+
+.waq-status {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	padding: 2px 8px;
+	border-radius: 3px;
+	vertical-align: middle;
+	margin-left: 8px;
+}
+
+.waq-status-draft {
+	background: #f0f0f1;
+	color: #646970;
+}
+
+.waq-status-final {
+	background: #d4f4e2;
+	color: #1a7f4e;
+}
+
+.waq-totals-box {
+	max-width: 320px;
+	margin: 16px 0;
+	padding: 14px 18px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+}
+
+.waq-totals-box p {
+	margin: 4px 0;
+	display: flex;
+	justify-content: space-between;
+}
