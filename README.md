@@ -44,9 +44,11 @@ total.
 
 ## Not in Phase 1 (by design — see roadmap)
 
-- **WhatsApp intake.** Phase 2. Phase 1 deliberately ships the AI-drafting
-  core with zero external API setup beyond the AI provider key, so it's
-  usable the moment it's installed.
+- **WhatsApp intake.** Phase 1 deliberately ships the AI-drafting core with
+  zero external API setup beyond the AI provider key, so it's usable the
+  moment it's installed. This plugin now exposes the REST hook any channel
+  integration needs (see "REST API" below) — the actual WhatsApp wiring is
+  external, not part of this plugin.
 - **Emailing the PDF to the customer.** v1 downloads a PDF for the rep to
   send manually.
 - **Multi-turn AI refinement.** Drafting is single-shot; corrections happen
@@ -106,11 +108,33 @@ totals. No custom database tables.
   install available; needs the same real-install test pass woo-geo-catalog
   went through before this should be trusted for anything customer-facing.
 
+## REST API (Phase 2 groundwork)
+
+`POST /wp-json/waq/v1/quotes` runs the same draft pipeline as the admin
+"New Quote" screen — AI drafts line items from `request_text`, they're
+matched against the real catalog, totals are computed — and always creates
+a **draft**, never a finalized quote. Meant for external automation (a
+WhatsApp bot, a CRM, anything) to create a starting-point quote for a rep
+to review, not to bypass human review.
+
+- **Auth**: WordPress core [Application Passwords](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/)
+  (native since WP 5.6, no extra plugin) via HTTP Basic Auth, for a user
+  with the `manage_woocommerce` capability. Not WooCommerce's consumer
+  key/secret scheme — that only covers the `wc/*` namespace, not this
+  plugin's custom route.
+- **Request body**: `{ "customer_name"?, "customer_email"?, "request_text" }`
+- **Response**: `{ quote_id, status: "draft", edit_url, line_items, totals }`
+- On an AI-drafting failure, the quote row is still created (empty) rather
+  than silently discarded, so the caller always has a `quote_id`/`edit_url`
+  to hand a rep even if the request has to be built manually instead.
+
+Used by Yuupee's own `create_ai_quote` OpenClaw tool (WhatsApp intake) —
+see that project's own docs for the integration-specific side (env vars,
+access control by sender). Nothing about the REST route itself is
+Yuupee-specific.
+
 ## Roadmap
 
-- **Phase 2: WhatsApp intake**, reusing the OpenClaw tool-plugin pattern
-  (multi-rep access control, local+cloud model split) already running in
-  production for Yuupee's own WhatsApp channel.
 - Email-the-PDF-to-customer action.
 - Interactive product-match picker instead of best-single-match.
 - Customer-facing quote view + acceptance.

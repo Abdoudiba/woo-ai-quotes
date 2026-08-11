@@ -6,7 +6,7 @@ Tested up to: 6.7
 Requires PHP: 7.4
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.1.3
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,11 @@ Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
 == Changelog ==
+
+= 0.2.0 =
+* Add: REST endpoint (`POST /wp-json/waq/v1/quotes`) exposing the AI-draft
+  pipeline to external automation — always creates a draft, never a
+  finalized quote. Authenticated via WordPress core Application Passwords.
 
 = 0.1.3 =
 * Improve: catalog matching for AI-drafted line items now retries with

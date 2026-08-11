@@ -3,7 +3,7 @@
  * Plugin Name:       AI Quotes for WooCommerce
  * Plugin URI:         https://github.com/abid/woo-ai-quotes
  * Description:        Draft a branded, calculated quote from a plain-language request against your real product catalog — AI drafts the line items, the plugin computes every number.
- * Version:            0.1.3
+ * Version:            0.2.0
  * Requires at least:  6.0
  * Requires PHP:       7.4
  * WC requires at least: 8.0
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WAQ_VERSION', '0.1.3' );
+define( 'WAQ_VERSION', '0.2.0' );
 define( 'WAQ_PLUGIN_FILE', __FILE__ );
 define( 'WAQ_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WAQ_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -60,10 +60,12 @@ function waq_init() {
 	require_once WAQ_PLUGIN_DIR . 'includes/class-waq-ai-drafter.php';
 	require_once WAQ_PLUGIN_DIR . 'includes/class-waq-pdf.php';
 	require_once WAQ_PLUGIN_DIR . 'includes/class-waq-admin.php';
+	require_once WAQ_PLUGIN_DIR . 'includes/class-waq-rest.php';
 
 	WAQ_Settings::init();
 	WAQ_Quote_Post_Type::init();
 	WAQ_Admin::init();
+	WAQ_REST::init();
 }
 add_action( 'plugins_loaded', 'waq_init' );
 
