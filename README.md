@@ -108,14 +108,14 @@ totals. No custom database tables.
   install available; needs the same real-install test pass woo-geo-catalog
   went through before this should be trusted for anything customer-facing.
 
-## REST API (Phase 2 groundwork)
+## REST API
 
 `POST /wp-json/waq/v1/quotes` runs the same draft pipeline as the admin
 "New Quote" screen — AI drafts line items from `request_text`, they're
 matched against the real catalog, totals are computed — and always creates
-a **draft**, never a finalized quote. Meant for external automation (a
-WhatsApp bot, a CRM, anything) to create a starting-point quote for a rep
-to review, not to bypass human review.
+a **draft**, never a finalized quote. The route itself is generic (works
+for any external automation — a CRM, a script, anything), not tied to any
+one integration.
 
 - **Auth**: WordPress core [Application Passwords](https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/)
   (native since WP 5.6, no extra plugin) via HTTP Basic Auth, for a user
@@ -128,13 +128,26 @@ to review, not to bypass human review.
   than silently discarded, so the caller always has a `quote_id`/`edit_url`
   to hand a rep even if the request has to be built manually instead.
 
-Used by Yuupee's own `create_ai_quote` OpenClaw tool (WhatsApp intake) —
+Used by Yuupee's own `create_ai_quote` OpenClaw tool for WhatsApp intake —
 see that project's own docs for the integration-specific side (env vars,
-access control by sender). Nothing about the REST route itself is
-Yuupee-specific.
+access control by sender). **This is Yuupee-internal, not a packaged
+feature of this plugin.** The tool only runs inside an OpenClaw instance,
+which is a separate orchestrator a buyer would have to install and run
+themselves — a much bigger ask than installing a WordPress plugin. Until
+there's a self-contained integration (the plugin itself talking to a
+WhatsApp Business API webhook, no external orchestrator required), don't
+market or sell WhatsApp intake as a capability of this plugin — see
+"Roadmap" below.
 
 ## Roadmap
 
+- **WhatsApp intake, without requiring OpenClaw.** The current
+  implementation only works because Yuupee already runs OpenClaw — a real
+  buyer wouldn't. Would need the plugin to handle WhatsApp Business Cloud
+  API webhooks directly and call the AI provider itself (already BYOK),
+  cutting out the orchestrator dependency. Real, non-trivial work — not
+  planned until there's a concrete reason to prioritize it over other
+  things.
 - Email-the-PDF-to-customer action.
 - Interactive product-match picker instead of best-single-match.
 - Customer-facing quote view + acceptance.
