@@ -1,5 +1,5 @@
 === AI Quotes for WooCommerce ===
-Contributors: (tbd)
+Contributors: abdoudiba
 Tags: woocommerce, quote, request a quote, ai, b2b
 Requires at least: 6.0
 Tested up to: 6.7
