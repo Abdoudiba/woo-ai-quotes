@@ -41,7 +41,7 @@ class WAQ_PDF {
 		$customer        = WAQ_Quote_Post_Type::get_customer( $quote_id );
 		$line_items      = WAQ_Quote_Post_Type::get_line_items( $quote_id );
 		$totals          = WAQ_Quote_Post_Type::get_totals( $quote_id );
-		$quote_number    = WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'DRAFT', 'woo-ai-quotes' );
+		$quote_number    = WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'DRAFT', 'ai-quotes-for-woocommerce' );
 		$date            = get_the_date( '', $quote_id );
 		$payment_details = WAQ_Settings::get_payment_details();
 		$footer          = WAQ_Settings::get_quote_footer();

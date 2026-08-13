@@ -30,21 +30,22 @@ class WAQ_Admin {
 
 	public static function register_menu() {
 		add_menu_page(
-			__( 'AI Quotes', 'woo-ai-quotes' ),
-			__( 'AI Quotes', 'woo-ai-quotes' ),
+			__( 'AI Quotes', 'ai-quotes-for-woocommerce' ),
+			__( 'AI Quotes', 'ai-quotes-for-woocommerce' ),
 			self::CAP,
 			'waq-quotes',
 			array( __CLASS__, 'render_list_page' ),
 			'dashicons-media-document',
 			56
 		);
-		add_submenu_page( 'waq-quotes', __( 'All Quotes', 'woo-ai-quotes' ), __( 'All Quotes', 'woo-ai-quotes' ), self::CAP, 'waq-quotes', array( __CLASS__, 'render_list_page' ) );
-		add_submenu_page( 'waq-quotes', __( 'New Quote', 'woo-ai-quotes' ), __( 'New Quote', 'woo-ai-quotes' ), self::CAP, 'waq-new-quote', array( __CLASS__, 'render_new_page' ) );
+		add_submenu_page( 'waq-quotes', __( 'All Quotes', 'ai-quotes-for-woocommerce' ), __( 'All Quotes', 'ai-quotes-for-woocommerce' ), self::CAP, 'waq-quotes', array( __CLASS__, 'render_list_page' ) );
+		add_submenu_page( 'waq-quotes', __( 'New Quote', 'ai-quotes-for-woocommerce' ), __( 'New Quote', 'ai-quotes-for-woocommerce' ), self::CAP, 'waq-new-quote', array( __CLASS__, 'render_new_page' ) );
 		// Registered but hidden from the menu — reached via row actions on the list page.
-		add_submenu_page( null, __( 'Edit Quote', 'woo-ai-quotes' ), __( 'Edit Quote', 'woo-ai-quotes' ), self::CAP, 'waq-edit-quote', array( __CLASS__, 'render_edit_page' ) );
+		add_submenu_page( null, __( 'Edit Quote', 'ai-quotes-for-woocommerce' ), __( 'Edit Quote', 'ai-quotes-for-woocommerce' ), self::CAP, 'waq-edit-quote', array( __CLASS__, 'render_edit_page' ) );
 	}
 
 	public static function enqueue_assets() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: only decides which assets to enqueue, no state change.
 		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 		if ( 0 !== strpos( $page, 'waq-' ) ) {
 			return;
@@ -69,7 +70,7 @@ class WAQ_Admin {
 				'nonce'          => wp_create_nonce( 'waq_get_product' ),
 				'currencySymbol' => get_woocommerce_currency_symbol(),
 				'i18n'           => array(
-					'remove' => __( 'Remove', 'woo-ai-quotes' ),
+					'remove' => __( 'Remove', 'ai-quotes-for-woocommerce' ),
 				),
 			)
 		);
@@ -81,7 +82,7 @@ class WAQ_Admin {
 
 	public static function render_list_page() {
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		$quotes = get_posts(
@@ -97,8 +98,8 @@ class WAQ_Admin {
 		self::render_notice();
 		?>
 		<div class="wrap waq-wrap">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Quotes', 'woo-ai-quotes' ); ?></h1>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=waq-new-quote' ) ); ?>" class="page-title-action"><?php esc_html_e( 'New Quote', 'woo-ai-quotes' ); ?></a>
+			<h1 class="wp-heading-inline"><?php esc_html_e( 'Quotes', 'ai-quotes-for-woocommerce' ); ?></h1>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=waq-new-quote' ) ); ?>" class="page-title-action"><?php esc_html_e( 'New Quote', 'ai-quotes-for-woocommerce' ); ?></a>
 			<hr class="wp-header-end">
 
 			<?php if ( ! WAQ_Settings::is_configured() ) : ?>
@@ -106,8 +107,8 @@ class WAQ_Admin {
 					<?php
 					printf(
 						/* translators: %s: settings link */
-						esc_html__( 'No AI provider configured yet — set an API key under %s before drafting a quote.', 'woo-ai-quotes' ),
-						'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=waq' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'woo-ai-quotes' ) . '</a>'
+						esc_html__( 'No AI provider configured yet — set an API key under %s before drafting a quote.', 'ai-quotes-for-woocommerce' ),
+						'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=waq' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'ai-quotes-for-woocommerce' ) . '</a>'
 					);
 					?>
 				</p></div>
@@ -116,17 +117,17 @@ class WAQ_Admin {
 			<table class="wp-list-table widefat fixed striped">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Quote #', 'woo-ai-quotes' ); ?></th>
-						<th><?php esc_html_e( 'Customer', 'woo-ai-quotes' ); ?></th>
-						<th><?php esc_html_e( 'Status', 'woo-ai-quotes' ); ?></th>
-						<th><?php esc_html_e( 'Total', 'woo-ai-quotes' ); ?></th>
-						<th><?php esc_html_e( 'Date', 'woo-ai-quotes' ); ?></th>
+						<th><?php esc_html_e( 'Quote #', 'ai-quotes-for-woocommerce' ); ?></th>
+						<th><?php esc_html_e( 'Customer', 'ai-quotes-for-woocommerce' ); ?></th>
+						<th><?php esc_html_e( 'Status', 'ai-quotes-for-woocommerce' ); ?></th>
+						<th><?php esc_html_e( 'Total', 'ai-quotes-for-woocommerce' ); ?></th>
+						<th><?php esc_html_e( 'Date', 'ai-quotes-for-woocommerce' ); ?></th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php if ( empty( $quotes ) ) : ?>
-						<tr><td colspan="6"><?php esc_html_e( 'No quotes yet.', 'woo-ai-quotes' ); ?></td></tr>
+						<tr><td colspan="6"><?php esc_html_e( 'No quotes yet.', 'ai-quotes-for-woocommerce' ); ?></td></tr>
 					<?php endif; ?>
 					<?php foreach ( $quotes as $quote ) : ?>
 						<?php
@@ -136,23 +137,23 @@ class WAQ_Admin {
 						$edit_url = admin_url( 'admin.php?page=waq-edit-quote&quote_id=' . $quote->ID );
 						?>
 						<tr>
-							<td><a href="<?php echo esc_url( $edit_url ); ?>"><?php echo esc_html( $number ?: __( '(draft)', 'woo-ai-quotes' ) ); ?></a></td>
+							<td><a href="<?php echo esc_url( $edit_url ); ?>"><?php echo esc_html( $number ?: __( '(draft)', 'ai-quotes-for-woocommerce' ) ); ?></a></td>
 							<td><?php echo esc_html( $customer['name'] ?: '—' ); ?></td>
 							<td>
 								<?php if ( 'publish' === $quote->post_status ) : ?>
-									<span class="waq-status waq-status-final"><?php esc_html_e( 'Finalized', 'woo-ai-quotes' ); ?></span>
+									<span class="waq-status waq-status-final"><?php esc_html_e( 'Finalized', 'ai-quotes-for-woocommerce' ); ?></span>
 								<?php else : ?>
-									<span class="waq-status waq-status-draft"><?php esc_html_e( 'Draft', 'woo-ai-quotes' ); ?></span>
+									<span class="waq-status waq-status-draft"><?php esc_html_e( 'Draft', 'ai-quotes-for-woocommerce' ); ?></span>
 								<?php endif; ?>
 							</td>
 							<td><?php echo wp_kses_post( wc_price( $totals['total'] ) ); ?></td>
 							<td><?php echo esc_html( get_the_date( '', $quote ) ); ?></td>
 							<td>
-								<a href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Edit', 'woo-ai-quotes' ); ?></a>
+								<a href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Edit', 'ai-quotes-for-woocommerce' ); ?></a>
 								<?php if ( 'publish' === $quote->post_status ) : ?>
-									| <a href="<?php echo esc_url( self::download_url( $quote->ID ) ); ?>"><?php esc_html_e( 'Download PDF', 'woo-ai-quotes' ); ?></a>
+									| <a href="<?php echo esc_url( self::download_url( $quote->ID ) ); ?>"><?php esc_html_e( 'Download PDF', 'ai-quotes-for-woocommerce' ); ?></a>
 								<?php endif; ?>
-								| <a href="<?php echo esc_url( self::delete_url( $quote->ID ) ); ?>" onclick="return confirm('<?php echo esc_js( __( 'Delete this quote?', 'woo-ai-quotes' ) ); ?>');"><?php esc_html_e( 'Delete', 'woo-ai-quotes' ); ?></a>
+								| <a href="<?php echo esc_url( self::delete_url( $quote->ID ) ); ?>" onclick="return confirm('<?php echo esc_js( __( 'Delete this quote?', 'ai-quotes-for-woocommerce' ) ); ?>');"><?php esc_html_e( 'Delete', 'ai-quotes-for-woocommerce' ); ?></a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -168,12 +169,12 @@ class WAQ_Admin {
 
 	public static function render_new_page() {
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'ai-quotes-for-woocommerce' ) );
 		}
 		?>
 		<div class="wrap waq-wrap">
-			<h1><?php esc_html_e( 'New Quote', 'woo-ai-quotes' ); ?></h1>
-			<p><?php esc_html_e( 'Describe what the customer wants in plain language. AI drafts a starting line-item list from your real catalog — you review and adjust everything before it becomes a quote.', 'woo-ai-quotes' ); ?></p>
+			<h1><?php esc_html_e( 'New Quote', 'ai-quotes-for-woocommerce' ); ?></h1>
+			<p><?php esc_html_e( 'Describe what the customer wants in plain language. AI drafts a starting line-item list from your real catalog — you review and adjust everything before it becomes a quote.', 'ai-quotes-for-woocommerce' ); ?></p>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="waq_create_draft">
@@ -181,30 +182,30 @@ class WAQ_Admin {
 
 				<table class="form-table">
 					<tr>
-						<th><label for="waq_customer_name"><?php esc_html_e( 'Customer name', 'woo-ai-quotes' ); ?></label></th>
+						<th><label for="waq_customer_name"><?php esc_html_e( 'Customer name', 'ai-quotes-for-woocommerce' ); ?></label></th>
 						<td><input type="text" id="waq_customer_name" name="customer_name" class="regular-text"></td>
 					</tr>
 					<tr>
-						<th><label for="waq_customer_email"><?php esc_html_e( 'Customer email', 'woo-ai-quotes' ); ?></label></th>
+						<th><label for="waq_customer_email"><?php esc_html_e( 'Customer email', 'ai-quotes-for-woocommerce' ); ?></label></th>
 						<td><input type="email" id="waq_customer_email" name="customer_email" class="regular-text"></td>
 					</tr>
 					<tr>
-						<th><label for="waq_request_text"><?php esc_html_e( 'Request', 'woo-ai-quotes' ); ?></label></th>
+						<th><label for="waq_request_text"><?php esc_html_e( 'Request', 'ai-quotes-for-woocommerce' ); ?></label></th>
 						<td>
-							<textarea id="waq_request_text" name="request_text" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'e.g. Client wants 5 HP laptops and a UPS, budget-conscious, deliver to Dakar', 'woo-ai-quotes' ); ?>"></textarea>
-							<p class="description"><?php esc_html_e( 'Leave blank to start an empty quote and add line items manually.', 'woo-ai-quotes' ); ?></p>
+							<textarea id="waq_request_text" name="request_text" rows="5" class="large-text" placeholder="<?php esc_attr_e( 'e.g. Client wants 5 HP laptops and a UPS, budget-conscious, deliver to Dakar', 'ai-quotes-for-woocommerce' ); ?>"></textarea>
+							<p class="description"><?php esc_html_e( 'Leave blank to start an empty quote and add line items manually.', 'ai-quotes-for-woocommerce' ); ?></p>
 						</td>
 					</tr>
 				</table>
 
-				<?php submit_button( __( 'Create Quote', 'woo-ai-quotes' ) ); ?>
+				<?php submit_button( __( 'Create Quote', 'ai-quotes-for-woocommerce' ) ); ?>
 				<?php if ( ! WAQ_Settings::is_configured() ) : ?>
 					<p class="description">
 						<?php
 						printf(
 							/* translators: %s: settings link */
-							esc_html__( 'No AI provider configured — set one under %s to enable AI drafting, or leave the request blank to build the quote manually.', 'woo-ai-quotes' ),
-							'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=waq' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'woo-ai-quotes' ) . '</a>'
+							esc_html__( 'No AI provider configured — set one under %s to enable AI drafting, or leave the request blank to build the quote manually.', 'ai-quotes-for-woocommerce' ),
+							'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=waq' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'ai-quotes-for-woocommerce' ) . '</a>'
 						);
 						?>
 					</p>
@@ -217,7 +218,7 @@ class WAQ_Admin {
 	public static function handle_create_draft() {
 		check_admin_referer( 'waq_create_draft' );
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to do this.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to do this.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		$customer_name  = sanitize_text_field( wp_unslash( $_POST['customer_name'] ?? '' ) );
@@ -228,12 +229,12 @@ class WAQ_Admin {
 			array(
 				'post_type'   => WAQ_Quote_Post_Type::POST_TYPE,
 				'post_status' => 'draft',
-				'post_title'  => $customer_name ?: __( 'Untitled quote', 'woo-ai-quotes' ),
+				'post_title'  => $customer_name ?: __( 'Untitled quote', 'ai-quotes-for-woocommerce' ),
 			)
 		);
 
 		if ( is_wp_error( $quote_id ) || ! $quote_id ) {
-			wp_die( esc_html__( 'Could not create the quote. Please try again.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'Could not create the quote. Please try again.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		WAQ_Quote_Post_Type::save_customer( $quote_id, $customer_name, $customer_email );
@@ -262,14 +263,15 @@ class WAQ_Admin {
 
 	public static function render_edit_page() {
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'ai-quotes-for-woocommerce' ) );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: only selects which quote to display, gated by the capability check above.
 		$quote_id = isset( $_GET['quote_id'] ) ? absint( $_GET['quote_id'] ) : 0;
 		$quote    = $quote_id ? get_post( $quote_id ) : null;
 
 		if ( ! $quote || WAQ_Quote_Post_Type::POST_TYPE !== $quote->post_type ) {
-			wp_die( esc_html__( 'Quote not found.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'Quote not found.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		self::render_notice();
@@ -281,12 +283,12 @@ class WAQ_Admin {
 		?>
 		<div class="wrap waq-wrap">
 			<h1>
-				<?php echo esc_html( WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'Draft quote', 'woo-ai-quotes' ) ); ?>
-				<?php if ( $is_final ) : ?><span class="waq-status waq-status-final"><?php esc_html_e( 'Finalized', 'woo-ai-quotes' ); ?></span><?php endif; ?>
+				<?php echo esc_html( WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'Draft quote', 'ai-quotes-for-woocommerce' ) ); ?>
+				<?php if ( $is_final ) : ?><span class="waq-status waq-status-final"><?php esc_html_e( 'Finalized', 'ai-quotes-for-woocommerce' ); ?></span><?php endif; ?>
 			</h1>
 
 			<?php if ( $is_final ) : ?>
-				<p class="description"><?php esc_html_e( 'This quote is finalized. Numbers are locked to when it was sent, even if catalog prices change later. You can still edit and re-finalize if needed.', 'woo-ai-quotes' ); ?></p>
+				<p class="description"><?php esc_html_e( 'This quote is finalized. Numbers are locked to when it was sent, even if catalog prices change later. You can still edit and re-finalize if needed.', 'ai-quotes-for-woocommerce' ); ?></p>
 			<?php endif; ?>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" id="waq-quote-form">
@@ -294,23 +296,23 @@ class WAQ_Admin {
 
 				<table class="form-table">
 					<tr>
-						<th><label for="waq_customer_name"><?php esc_html_e( 'Customer name', 'woo-ai-quotes' ); ?></label></th>
+						<th><label for="waq_customer_name"><?php esc_html_e( 'Customer name', 'ai-quotes-for-woocommerce' ); ?></label></th>
 						<td><input type="text" id="waq_customer_name" name="customer_name" class="regular-text" value="<?php echo esc_attr( $customer['name'] ); ?>"></td>
 					</tr>
 					<tr>
-						<th><label for="waq_customer_email"><?php esc_html_e( 'Customer email', 'woo-ai-quotes' ); ?></label></th>
+						<th><label for="waq_customer_email"><?php esc_html_e( 'Customer email', 'ai-quotes-for-woocommerce' ); ?></label></th>
 						<td><input type="email" id="waq_customer_email" name="customer_email" class="regular-text" value="<?php echo esc_attr( $customer['email'] ); ?>"></td>
 					</tr>
 				</table>
 
-				<h2><?php esc_html_e( 'Line items', 'woo-ai-quotes' ); ?></h2>
+				<h2><?php esc_html_e( 'Line items', 'ai-quotes-for-woocommerce' ); ?></h2>
 				<table class="wp-list-table widefat fixed striped" id="waq-items-table">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Description', 'woo-ai-quotes' ); ?></th>
-							<th style="width:90px;"><?php esc_html_e( 'Qty', 'woo-ai-quotes' ); ?></th>
-							<th style="width:130px;"><?php esc_html_e( 'Unit price', 'woo-ai-quotes' ); ?></th>
-							<th style="width:130px;"><?php esc_html_e( 'Tax % override', 'woo-ai-quotes' ); ?></th>
+							<th><?php esc_html_e( 'Description', 'ai-quotes-for-woocommerce' ); ?></th>
+							<th style="width:90px;"><?php esc_html_e( 'Qty', 'ai-quotes-for-woocommerce' ); ?></th>
+							<th style="width:130px;"><?php esc_html_e( 'Unit price', 'ai-quotes-for-woocommerce' ); ?></th>
+							<th style="width:130px;"><?php esc_html_e( 'Tax % override', 'ai-quotes-for-woocommerce' ); ?></th>
 							<th style="width:60px;"></th>
 						</tr>
 					</thead>
@@ -322,23 +324,23 @@ class WAQ_Admin {
 				</table>
 
 				<p>
-					<button type="button" class="button" id="waq-add-custom-row"><?php esc_html_e( '+ Add custom line', 'woo-ai-quotes' ); ?></button>
-					<select id="waq-add-product" style="min-width:320px;" data-placeholder="<?php esc_attr_e( '+ Add product from catalog…', 'woo-ai-quotes' ); ?>" class="wc-product-search" data-action="woocommerce_json_search_products_and_variations"></select>
+					<button type="button" class="button" id="waq-add-custom-row"><?php esc_html_e( '+ Add custom line', 'ai-quotes-for-woocommerce' ); ?></button>
+					<select id="waq-add-product" style="min-width:320px;" data-placeholder="<?php esc_attr_e( '+ Add product from catalog…', 'ai-quotes-for-woocommerce' ); ?>" class="wc-product-search" data-action="woocommerce_json_search_products_and_variations"></select>
 				</p>
 
 				<div class="waq-totals-box">
-					<p><?php esc_html_e( 'Subtotal:', 'woo-ai-quotes' ); ?> <span id="waq-preview-subtotal"><?php echo wp_kses_post( wc_price( $totals['subtotal'] ) ); ?></span></p>
-					<p><?php esc_html_e( 'Tax:', 'woo-ai-quotes' ); ?> <span id="waq-preview-tax"><?php echo wp_kses_post( wc_price( $totals['tax'] ) ); ?></span></p>
-					<p><strong><?php esc_html_e( 'Total:', 'woo-ai-quotes' ); ?> <span id="waq-preview-total"><?php echo wp_kses_post( wc_price( $totals['total'] ) ); ?></span></strong></p>
-					<p class="description"><?php esc_html_e( 'Preview only — exact totals are recalculated from real catalog/tax data when you save.', 'woo-ai-quotes' ); ?></p>
+					<p><?php esc_html_e( 'Subtotal:', 'ai-quotes-for-woocommerce' ); ?> <span id="waq-preview-subtotal"><?php echo wp_kses_post( wc_price( $totals['subtotal'] ) ); ?></span></p>
+					<p><?php esc_html_e( 'Tax:', 'ai-quotes-for-woocommerce' ); ?> <span id="waq-preview-tax"><?php echo wp_kses_post( wc_price( $totals['tax'] ) ); ?></span></p>
+					<p><strong><?php esc_html_e( 'Total:', 'ai-quotes-for-woocommerce' ); ?> <span id="waq-preview-total"><?php echo wp_kses_post( wc_price( $totals['total'] ) ); ?></span></strong></p>
+					<p class="description"><?php esc_html_e( 'Preview only — exact totals are recalculated from real catalog/tax data when you save.', 'ai-quotes-for-woocommerce' ); ?></p>
 				</div>
 
 				<p class="submit">
 					<?php wp_nonce_field( 'waq_save_quote' ); ?>
-					<button type="submit" name="action" value="waq_save_quote" class="button"><?php esc_html_e( 'Save Draft', 'woo-ai-quotes' ); ?></button>
-					<button type="submit" name="action" value="waq_finalize_quote" class="button button-primary" onclick="return confirm('<?php echo esc_js( __( 'Finalize this quote? Its quote number and totals will be locked in.', 'woo-ai-quotes' ) ); ?>');"><?php esc_html_e( 'Finalize & Download PDF', 'woo-ai-quotes' ); ?></button>
+					<button type="submit" name="action" value="waq_save_quote" class="button"><?php esc_html_e( 'Save Draft', 'ai-quotes-for-woocommerce' ); ?></button>
+					<button type="submit" name="action" value="waq_finalize_quote" class="button button-primary" onclick="return confirm('<?php echo esc_js( __( 'Finalize this quote? Its quote number and totals will be locked in.', 'ai-quotes-for-woocommerce' ) ); ?>');"><?php esc_html_e( 'Finalize & Download PDF', 'ai-quotes-for-woocommerce' ); ?></button>
 					<?php if ( $is_final ) : ?>
-						<a href="<?php echo esc_url( self::download_url( $quote_id ) ); ?>" class="button"><?php esc_html_e( 'Download PDF', 'woo-ai-quotes' ); ?></a>
+						<a href="<?php echo esc_url( self::download_url( $quote_id ) ); ?>" class="button"><?php esc_html_e( 'Download PDF', 'ai-quotes-for-woocommerce' ); ?></a>
 					<?php endif; ?>
 				</p>
 			</form>
@@ -360,8 +362,8 @@ class WAQ_Admin {
 			</td>
 			<td><input type="number" step="0.01" min="0" class="small-text waq-qty" name="<?php echo esc_attr( $name_prefix ); ?>[qty]" value="<?php echo esc_attr( $item['qty'] ?? 1 ); ?>"></td>
 			<td><input type="number" step="0.01" min="0" class="waq-unit-price" name="<?php echo esc_attr( $name_prefix ); ?>[unit_price]" value="<?php echo esc_attr( $item['unit_price'] ?? 0 ); ?>"></td>
-			<td><input type="number" step="0.01" min="0" class="waq-tax-rate" name="<?php echo esc_attr( $name_prefix ); ?>[tax_rate]" value="<?php echo esc_attr( $item['tax_rate'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'auto', 'woo-ai-quotes' ); ?>"></td>
-			<td><button type="button" class="button-link waq-remove-row"><?php esc_html_e( 'Remove', 'woo-ai-quotes' ); ?></button></td>
+			<td><input type="number" step="0.01" min="0" class="waq-tax-rate" name="<?php echo esc_attr( $name_prefix ); ?>[tax_rate]" value="<?php echo esc_attr( $item['tax_rate'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'auto', 'ai-quotes-for-woocommerce' ); ?>"></td>
+			<td><button type="button" class="button-link waq-remove-row"><?php esc_html_e( 'Remove', 'ai-quotes-for-woocommerce' ); ?></button></td>
 		</tr>
 		<?php
 	}
@@ -377,19 +379,20 @@ class WAQ_Admin {
 	private static function save_from_request( $finalize ) {
 		check_admin_referer( 'waq_save_quote' );
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to do this.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to do this.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		$quote_id = isset( $_POST['quote_id'] ) ? absint( $_POST['quote_id'] ) : 0;
 		$quote    = $quote_id ? get_post( $quote_id ) : null;
 		if ( ! $quote || WAQ_Quote_Post_Type::POST_TYPE !== $quote->post_type ) {
-			wp_die( esc_html__( 'Quote not found.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'Quote not found.', 'ai-quotes-for-woocommerce' ) );
 		}
 
 		$customer_name  = sanitize_text_field( wp_unslash( $_POST['customer_name'] ?? '' ) );
 		$customer_email = sanitize_email( wp_unslash( $_POST['customer_email'] ?? '' ) );
 		WAQ_Quote_Post_Type::save_customer( $quote_id, $customer_name, $customer_email );
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- each field is sanitized/type-cast immediately below in WAQ_Quote_Post_Type::save_line_items() -> sanitize_line_item(), before anything is stored.
 		$raw_items = isset( $_POST['items'] ) && is_array( $_POST['items'] ) ? wp_unslash( $_POST['items'] ) : array();
 		$items     = array();
 		foreach ( $raw_items as $raw_item ) {
@@ -406,7 +409,7 @@ class WAQ_Admin {
 		wp_update_post(
 			array(
 				'ID'         => $quote_id,
-				'post_title' => $customer_name ?: __( 'Untitled quote', 'woo-ai-quotes' ),
+				'post_title' => $customer_name ?: __( 'Untitled quote', 'ai-quotes-for-woocommerce' ),
 			)
 		);
 
@@ -430,11 +433,11 @@ class WAQ_Admin {
 		$quote_id = isset( $_GET['quote_id'] ) ? absint( $_GET['quote_id'] ) : 0;
 		check_admin_referer( 'waq_download_' . $quote_id );
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to do this.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to do this.', 'ai-quotes-for-woocommerce' ) );
 		}
 		$quote = get_post( $quote_id );
 		if ( ! $quote || WAQ_Quote_Post_Type::POST_TYPE !== $quote->post_type ) {
-			wp_die( esc_html__( 'Quote not found.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'Quote not found.', 'ai-quotes-for-woocommerce' ) );
 		}
 		WAQ_PDF::stream( $quote_id );
 	}
@@ -443,7 +446,7 @@ class WAQ_Admin {
 		$quote_id = isset( $_GET['quote_id'] ) ? absint( $_GET['quote_id'] ) : 0;
 		check_admin_referer( 'waq_delete_' . $quote_id );
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You do not have permission to do this.', 'woo-ai-quotes' ) );
+			wp_die( esc_html__( 'You do not have permission to do this.', 'ai-quotes-for-woocommerce' ) );
 		}
 		wp_trash_post( $quote_id );
 		wp_safe_redirect( admin_url( 'admin.php?page=waq-quotes&waq_notice=deleted' ) );
@@ -497,17 +500,18 @@ class WAQ_Admin {
 	}
 
 	private static function render_notice() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: only selects which admin notice text to display, sanitized via sanitize_key().
 		$notice = isset( $_GET['waq_notice'] ) ? sanitize_key( $_GET['waq_notice'] ) : '';
 		if ( 'ai_error' === $notice ) {
 			$message = get_transient( 'waq_notice_' . get_current_user_id() );
 			delete_transient( 'waq_notice_' . get_current_user_id() );
-			printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ?: __( 'The AI draft failed.', 'woo-ai-quotes' ) ) );
+			printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ?: __( 'The AI draft failed.', 'ai-quotes-for-woocommerce' ) ) );
 		} elseif ( 'saved' === $notice ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Quote saved.', 'woo-ai-quotes' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Quote saved.', 'ai-quotes-for-woocommerce' ) . '</p></div>';
 		} elseif ( 'drafted' === $notice ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Draft created — review the line items below before finalizing.', 'woo-ai-quotes' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Draft created — review the line items below before finalizing.', 'ai-quotes-for-woocommerce' ) . '</p></div>';
 		} elseif ( 'deleted' === $notice ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Quote deleted.', 'woo-ai-quotes' ) . '</p></div>';
+			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Quote deleted.', 'ai-quotes-for-woocommerce' ) . '</p></div>';
 		}
 	}
 }

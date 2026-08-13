@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       AI Quotes for WooCommerce
- * Plugin URI:         https://github.com/abid/woo-ai-quotes
+ * Plugin URI:         https://github.com/Abdoudiba/ai-quotes-for-woocommerce
  * Description:        Draft a branded, calculated quote from a plain-language request against your real product catalog — AI drafts the line items, the plugin computes every number.
  * Version:            0.2.0
  * Requires at least:  6.0
@@ -10,8 +10,7 @@
  * Author:             Abid
  * License:            GPL v2 or later
  * License URI:        https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:        woo-ai-quotes
- * Domain Path:        /languages
+ * Text Domain:        ai-quotes-for-woocommerce
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +26,7 @@ define( 'WAQ_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  */
 function waq_woocommerce_missing_notice() {
 	echo '<div class="notice notice-error"><p>' .
-		esc_html__( 'AI Quotes for WooCommerce requires WooCommerce to be installed and active.', 'woo-ai-quotes' ) .
+		esc_html__( 'AI Quotes for WooCommerce requires WooCommerce to be installed and active.', 'ai-quotes-for-woocommerce' ) .
 		'</p></div>';
 }
 
@@ -38,7 +37,7 @@ function waq_woocommerce_missing_notice() {
  */
 function waq_vendor_missing_notice() {
 	echo '<div class="notice notice-error"><p>' .
-		esc_html__( 'AI Quotes for WooCommerce is missing its PDF library. Run `composer install` in the plugin directory, or install from a release zip instead of a raw checkout.', 'woo-ai-quotes' ) .
+		esc_html__( 'AI Quotes for WooCommerce is missing its PDF library. Run `composer install` in the plugin directory, or install from a release zip instead of a raw checkout.', 'ai-quotes-for-woocommerce' ) .
 		'</p></div>';
 }
 

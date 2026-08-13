@@ -2,7 +2,7 @@
 Contributors: abdoudiba
 Tags: woocommerce, quote, request a quote, ai, b2b
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 7.0
 Requires PHP: 7.4
 WC requires at least: 8.0
 WC tested up to: 9.0
@@ -10,7 +10,7 @@ Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Draft a branded, calculated quote from a plain-language request — checked against your real catalog, with every number computed by the plugin, never by the AI.
+Draft a branded, calculated quote from a plain-language request — checked against your real catalog, computed by the plugin, never by the AI.
 
 == Description ==
 

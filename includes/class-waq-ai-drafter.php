@@ -28,7 +28,7 @@ class WAQ_AI_Drafter {
 		if ( '' === $api_key ) {
 			return array(
 				'items' => array(),
-				'error' => __( 'No AI API key configured — set one under WooCommerce → Settings → AI Quotes.', 'woo-ai-quotes' ),
+				'error' => __( 'No AI API key configured — set one under WooCommerce → Settings → AI Quotes.', 'ai-quotes-for-woocommerce' ),
 			);
 		}
 
@@ -44,7 +44,7 @@ class WAQ_AI_Drafter {
 		if ( null === $items ) {
 			return array(
 				'items' => array(),
-				'error' => __( 'The AI response could not be parsed as a line-item list. Try rephrasing the request.', 'woo-ai-quotes' ),
+				'error' => __( 'The AI response could not be parsed as a line-item list. Try rephrasing the request.', 'ai-quotes-for-woocommerce' ),
 			);
 		}
 
@@ -95,7 +95,7 @@ class WAQ_AI_Drafter {
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( $code >= 300 ) {
-			$message = $body['error']['message'] ?? __( 'OpenAI request failed.', 'woo-ai-quotes' );
+			$message = $body['error']['message'] ?? __( 'OpenAI request failed.', 'ai-quotes-for-woocommerce' );
 			return new WP_Error( 'waq_openai_error', $message );
 		}
 
@@ -136,7 +136,7 @@ class WAQ_AI_Drafter {
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( $code >= 300 ) {
-			$message = $body['error']['message'] ?? __( 'Anthropic request failed.', 'woo-ai-quotes' );
+			$message = $body['error']['message'] ?? __( 'Anthropic request failed.', 'ai-quotes-for-woocommerce' );
 			return new WP_Error( 'waq_anthropic_error', $message );
 		}
 

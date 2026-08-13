@@ -31,7 +31,7 @@ class WAQ_Quote_Post_Type {
 		register_post_type(
 			self::POST_TYPE,
 			array(
-				'label'           => __( 'Quotes', 'woo-ai-quotes' ),
+				'label'           => __( 'Quotes', 'ai-quotes-for-woocommerce' ),
 				'public'          => false,
 				'show_ui'         => false,
 				'show_in_menu'    => false,

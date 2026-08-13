@@ -31,49 +31,49 @@ class WAQ_Settings {
 	}
 
 	public static function add_tab( $tabs ) {
-		$tabs['waq'] = __( 'AI Quotes', 'woo-ai-quotes' );
+		$tabs['waq'] = __( 'AI Quotes', 'ai-quotes-for-woocommerce' );
 		return $tabs;
 	}
 
 	private static function fields() {
 		return array(
 			array(
-				'title' => __( 'AI provider', 'woo-ai-quotes' ),
+				'title' => __( 'AI provider', 'ai-quotes-for-woocommerce' ),
 				'type'  => 'title',
-				'desc'  => __( 'Bring your own API key — quotes are drafted using your account, so usage is billed to you directly by the provider, not marked up by this plugin.', 'woo-ai-quotes' ),
+				'desc'  => __( 'Bring your own API key — quotes are drafted using your account, so usage is billed to you directly by the provider, not marked up by this plugin.', 'ai-quotes-for-woocommerce' ),
 				'id'    => 'waq_section_ai_title',
 			),
 			array(
-				'title'    => __( 'Provider', 'woo-ai-quotes' ),
+				'title'    => __( 'Provider', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_AI_PROVIDER,
 				'type'     => 'select',
 				'options'  => array(
-					'openai'    => __( 'OpenAI', 'woo-ai-quotes' ),
-					'anthropic' => __( 'Anthropic (Claude)', 'woo-ai-quotes' ),
+					'openai'    => __( 'OpenAI', 'ai-quotes-for-woocommerce' ),
+					'anthropic' => __( 'Anthropic (Claude)', 'ai-quotes-for-woocommerce' ),
 				),
 				'default'  => 'openai',
 			),
 			array(
-				'title'    => __( 'OpenAI API key', 'woo-ai-quotes' ),
+				'title'    => __( 'OpenAI API key', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_OPENAI_KEY,
 				'type'     => 'password',
 				'css'      => 'width:400px;',
 			),
 			array(
-				'title'    => __( 'OpenAI model', 'woo-ai-quotes' ),
+				'title'    => __( 'OpenAI model', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_OPENAI_MODEL,
 				'type'     => 'text',
 				'default'  => 'gpt-4o-mini',
 				'css'      => 'width:250px;',
 			),
 			array(
-				'title'    => __( 'Anthropic API key', 'woo-ai-quotes' ),
+				'title'    => __( 'Anthropic API key', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_ANTHROPIC_KEY,
 				'type'     => 'password',
 				'css'      => 'width:400px;',
 			),
 			array(
-				'title'    => __( 'Anthropic model', 'woo-ai-quotes' ),
+				'title'    => __( 'Anthropic model', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_ANTHROPIC_MODEL,
 				'type'     => 'text',
 				'default'  => 'claude-haiku-4-5-20251001',
@@ -84,50 +84,50 @@ class WAQ_Settings {
 				'id'   => 'waq_section_ai_end',
 			),
 			array(
-				'title' => __( 'Company details', 'woo-ai-quotes' ),
+				'title' => __( 'Company details', 'ai-quotes-for-woocommerce' ),
 				'type'  => 'title',
-				'desc'  => __( 'Printed on every generated quote PDF.', 'woo-ai-quotes' ),
+				'desc'  => __( 'Printed on every generated quote PDF.', 'ai-quotes-for-woocommerce' ),
 				'id'    => 'waq_section_company_title',
 			),
 			array(
-				'title'    => __( 'Company name', 'woo-ai-quotes' ),
+				'title'    => __( 'Company name', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_COMPANY_NAME,
 				'type'     => 'text',
 				'default'  => get_bloginfo( 'name' ),
 				'css'      => 'width:400px;',
 			),
 			array(
-				'title'    => __( 'Address', 'woo-ai-quotes' ),
+				'title'    => __( 'Address', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_COMPANY_ADDRESS,
 				'type'     => 'textarea',
 				'css'      => 'width:400px; height:60px;',
 			),
 			array(
-				'title'    => __( 'Phone', 'woo-ai-quotes' ),
+				'title'    => __( 'Phone', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_COMPANY_PHONE,
 				'type'     => 'text',
 				'css'      => 'width:250px;',
 			),
 			array(
-				'title'    => __( 'Email', 'woo-ai-quotes' ),
+				'title'    => __( 'Email', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_COMPANY_EMAIL,
 				'type'     => 'email',
 				'default'  => get_bloginfo( 'admin_email' ),
 				'css'      => 'width:250px;',
 			),
 			array(
-				'title'    => __( 'Logo URL', 'woo-ai-quotes' ),
+				'title'    => __( 'Logo URL', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_COMPANY_LOGO_URL,
 				'type'     => 'text',
-				'desc'     => __( 'Paste a Media Library image URL (Media → Add New, then copy the file URL). Leave blank for a text-only header.', 'woo-ai-quotes' ),
+				'desc'     => __( 'Paste a Media Library image URL (Media → Add New, then copy the file URL). Leave blank for a text-only header.', 'ai-quotes-for-woocommerce' ),
 				'css'      => 'width:400px;',
 			),
 			array(
-				'title'    => __( 'Fallback tax rate (%)', 'woo-ai-quotes' ),
+				'title'    => __( 'Fallback tax rate (%)', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_FALLBACK_TAX_RATE,
 				'type'     => 'number',
 				'default'  => '0',
-				'desc'     => __( 'Used only for line items not tied to a real product (those use your existing WooCommerce tax settings instead).', 'woo-ai-quotes' ),
+				'desc'     => __( 'Used only for line items not tied to a real product (those use your existing WooCommerce tax settings instead).', 'ai-quotes-for-woocommerce' ),
 				'css'      => 'width:100px;',
 				'custom_attributes' => array(
 					'step' => '0.01',
@@ -135,21 +135,21 @@ class WAQ_Settings {
 				),
 			),
 			array(
-				'title'    => __( 'Payment / bank details', 'woo-ai-quotes' ),
+				'title'    => __( 'Payment / bank details', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_PAYMENT_DETAILS,
 				'type'     => 'textarea',
-				'desc'     => __( 'Optional — shown in the quote footer if filled in.', 'woo-ai-quotes' ),
+				'desc'     => __( 'Optional — shown in the quote footer if filled in.', 'ai-quotes-for-woocommerce' ),
 				'css'      => 'width:400px; height:75px;',
 			),
 			array(
-				'title'    => __( 'Quote footer / terms', 'woo-ai-quotes' ),
+				'title'    => __( 'Quote footer / terms', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_QUOTE_FOOTER,
 				'type'     => 'textarea',
-				'desc'     => __( 'E.g. validity period, terms, thank-you note.', 'woo-ai-quotes' ),
+				'desc'     => __( 'E.g. validity period, terms, thank-you note.', 'ai-quotes-for-woocommerce' ),
 				'css'      => 'width:400px; height:75px;',
 			),
 			array(
-				'title'    => __( 'Quote number prefix', 'woo-ai-quotes' ),
+				'title'    => __( 'Quote number prefix', 'ai-quotes-for-woocommerce' ),
 				'id'       => self::OPTION_QUOTE_PREFIX,
 				'type'     => 'text',
 				'default'  => 'Q-',

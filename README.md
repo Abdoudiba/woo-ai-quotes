@@ -72,7 +72,7 @@ total.
 ## Architecture
 
 ```
-woo-ai-quotes.php                    Plugin bootstrap, WooCommerce + vendor/ dependency checks, HPOS compat
+ai-quotes-for-woocommerce.php                    Plugin bootstrap, WooCommerce + vendor/ dependency checks, HPOS compat
 composer.json                        Single dependency: dompdf/dompdf (LGPL, bundled)
 includes/
   class-waq-settings.php             WooCommerce → Settings → AI Quotes: provider/key, company branding

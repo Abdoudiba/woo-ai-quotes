@@ -61,23 +61,23 @@ class WAQ_REST {
 		$request_text   = sanitize_textarea_field( (string) $request->get_param( 'request_text' ) );
 
 		if ( '' === trim( $request_text ) ) {
-			return new WP_Error( 'waq_missing_request_text', __( 'request_text is required.', 'woo-ai-quotes' ), array( 'status' => 400 ) );
+			return new WP_Error( 'waq_missing_request_text', __( 'request_text is required.', 'ai-quotes-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
 		if ( ! WAQ_Settings::is_configured() ) {
-			return new WP_Error( 'waq_ai_not_configured', __( 'No AI provider configured — set one under WooCommerce → Settings → AI Quotes.', 'woo-ai-quotes' ), array( 'status' => 400 ) );
+			return new WP_Error( 'waq_ai_not_configured', __( 'No AI provider configured — set one under WooCommerce → Settings → AI Quotes.', 'ai-quotes-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
 		$quote_id = wp_insert_post(
 			array(
 				'post_type'   => WAQ_Quote_Post_Type::POST_TYPE,
 				'post_status' => 'draft',
-				'post_title'  => $customer_name ?: __( 'Untitled quote', 'woo-ai-quotes' ),
+				'post_title'  => $customer_name ?: __( 'Untitled quote', 'ai-quotes-for-woocommerce' ),
 			),
 			true
 		);
 		if ( is_wp_error( $quote_id ) ) {
-			return new WP_Error( 'waq_create_failed', __( 'Could not create the quote.', 'woo-ai-quotes' ), array( 'status' => 500 ) );
+			return new WP_Error( 'waq_create_failed', __( 'Could not create the quote.', 'ai-quotes-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
 		WAQ_Quote_Post_Type::save_customer( $quote_id, $customer_name, $customer_email );

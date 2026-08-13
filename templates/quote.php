@@ -79,7 +79,7 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 				</td>
 				<td style="width: 45%;">
-					<div class="doc-title"><?php esc_html_e( 'QUOTE', 'woo-ai-quotes' ); ?></div>
+					<div class="doc-title"><?php esc_html_e( 'QUOTE', 'ai-quotes-for-woocommerce' ); ?></div>
 					<div class="doc-meta">
 						<?php echo esc_html( $quote_number ); ?><br>
 						<?php echo esc_html( $date ); ?>
@@ -91,7 +91,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php if ( ! empty( $customer['name'] ) ) : ?>
 	<div class="customer-block">
-		<div class="customer-label"><?php esc_html_e( 'Prepared for', 'woo-ai-quotes' ); ?></div>
+		<div class="customer-label"><?php esc_html_e( 'Prepared for', 'ai-quotes-for-woocommerce' ); ?></div>
 		<div class="customer-name"><?php echo esc_html( $customer['name'] ); ?></div>
 		<?php if ( ! empty( $customer['email'] ) ) : ?>
 			<div class="company-details"><?php echo esc_html( $customer['email'] ); ?></div>
@@ -102,10 +102,10 @@ defined( 'ABSPATH' ) || exit;
 	<table class="items">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Description', 'woo-ai-quotes' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Qty', 'woo-ai-quotes' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Unit price', 'woo-ai-quotes' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Line total', 'woo-ai-quotes' ); ?></th>
+				<th><?php esc_html_e( 'Description', 'ai-quotes-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Qty', 'ai-quotes-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Unit price', 'ai-quotes-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Line total', 'ai-quotes-for-woocommerce' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -123,15 +123,15 @@ defined( 'ABSPATH' ) || exit;
 	<div class="totals">
 		<table>
 			<tr>
-				<td class="label"><?php esc_html_e( 'Subtotal', 'woo-ai-quotes' ); ?></td>
+				<td class="label"><?php esc_html_e( 'Subtotal', 'ai-quotes-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['subtotal'] ) ); ?></td>
 			</tr>
 			<tr>
-				<td class="label"><?php esc_html_e( 'Tax', 'woo-ai-quotes' ); ?></td>
+				<td class="label"><?php esc_html_e( 'Tax', 'ai-quotes-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['tax'] ) ); ?></td>
 			</tr>
 			<tr class="grand">
-				<td><?php esc_html_e( 'Total', 'woo-ai-quotes' ); ?></td>
+				<td><?php esc_html_e( 'Total', 'ai-quotes-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['total'] ) ); ?></td>
 			</tr>
 		</table>
