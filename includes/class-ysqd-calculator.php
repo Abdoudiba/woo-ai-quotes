@@ -7,10 +7,10 @@ defined( 'ABSPATH' ) || exit;
  * arithmetic against real WooCommerce tax data (or the fallback rate for
  * items with no linked product), never from a model's output.
  */
-class WAQ_Calculator {
+class YSQD_Calculator {
 
 	/**
-	 * @param array $line_items As returned by WAQ_Quote_Post_Type::get_line_items().
+	 * @param array $line_items As returned by YSQD_Quote_Post_Type::get_line_items().
 	 * @return array{subtotal:float, tax:float, total:float}
 	 */
 	public static function calculate( array $line_items ) {
@@ -65,7 +65,7 @@ class WAQ_Calculator {
 			}
 		}
 
-		return WAQ_Settings::get_fallback_tax_rate();
+		return YSQD_Settings::get_fallback_tax_rate();
 	}
 
 	/**

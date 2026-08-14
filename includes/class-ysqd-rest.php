@@ -17,9 +17,9 @@ defined( 'ABSPATH' ) || exit;
  * revocable. Not WooCommerce's consumer key/secret scheme, which only
  * covers the wc/* namespace, not custom routes like this one.
  */
-class WAQ_REST {
+class YSQD_REST {
 
-	const NAMESPACE = 'waq/v1';
+	const NAMESPACE = 'ysqd/v1';
 
 	public static function init() {
 		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
@@ -52,7 +52,7 @@ class WAQ_REST {
 	}
 
 	public static function check_permission() {
-		return current_user_can( WAQ_Admin::CAP );
+		return current_user_can( YSQD_Admin::CAP );
 	}
 
 	public static function create_quote( WP_REST_Request $request ) {
@@ -61,46 +61,46 @@ class WAQ_REST {
 		$request_text   = sanitize_textarea_field( (string) $request->get_param( 'request_text' ) );
 
 		if ( '' === trim( $request_text ) ) {
-			return new WP_Error( 'waq_missing_request_text', __( 'request_text is required.', 'ai-quotes-for-woocommerce' ), array( 'status' => 400 ) );
+			return new WP_Error( 'ysqd_missing_request_text', __( 'request_text is required.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
-		if ( ! WAQ_Settings::is_configured() ) {
-			return new WP_Error( 'waq_ai_not_configured', __( 'No AI provider configured — set one under WooCommerce → Settings → AI Quotes.', 'ai-quotes-for-woocommerce' ), array( 'status' => 400 ) );
+		if ( ! YSQD_Settings::is_configured() ) {
+			return new WP_Error( 'ysqd_ai_not_configured', __( 'No AI provider configured — set one under WooCommerce → Settings → AI Quotes.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
 		$quote_id = wp_insert_post(
 			array(
-				'post_type'   => WAQ_Quote_Post_Type::POST_TYPE,
+				'post_type'   => YSQD_Quote_Post_Type::POST_TYPE,
 				'post_status' => 'draft',
-				'post_title'  => $customer_name ?: __( 'Untitled quote', 'ai-quotes-for-woocommerce' ),
+				'post_title'  => $customer_name ?: __( 'Untitled quote', 'yuupee-smart-quote-drafting-for-woocommerce' ),
 			),
 			true
 		);
 		if ( is_wp_error( $quote_id ) ) {
-			return new WP_Error( 'waq_create_failed', __( 'Could not create the quote.', 'ai-quotes-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'ysqd_create_failed', __( 'Could not create the quote.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
-		WAQ_Quote_Post_Type::save_customer( $quote_id, $customer_name, $customer_email );
-		update_post_meta( $quote_id, WAQ_Quote_Post_Type::META_REQUEST_TEXT, $request_text );
+		YSQD_Quote_Post_Type::save_customer( $quote_id, $customer_name, $customer_email );
+		update_post_meta( $quote_id, YSQD_Quote_Post_Type::META_REQUEST_TEXT, $request_text );
 
-		$result = WAQ_AI_Drafter::draft_from_request( $request_text );
+		$result = YSQD_AI_Drafter::draft_from_request( $request_text );
 		if ( $result['error'] ) {
 			// The quote row stays (empty) rather than being deleted — same
 			// behavior as the admin intake form on an AI failure, so nothing
 			// silently vanishes and the caller still has a quote_id to point
 			// a rep at if they want to build it manually instead.
-			return new WP_Error( 'waq_ai_draft_failed', $result['error'], array( 'status' => 502 ) );
+			return new WP_Error( 'ysqd_ai_draft_failed', $result['error'], array( 'status' => 502 ) );
 		}
 
-		WAQ_Quote_Post_Type::save_line_items( $quote_id, $result['items'] );
-		$totals = WAQ_Calculator::calculate( $result['items'] );
-		WAQ_Quote_Post_Type::save_totals( $quote_id, $totals );
+		YSQD_Quote_Post_Type::save_line_items( $quote_id, $result['items'] );
+		$totals = YSQD_Calculator::calculate( $result['items'] );
+		YSQD_Quote_Post_Type::save_totals( $quote_id, $totals );
 
 		return array(
 			'quote_id'   => $quote_id,
 			'status'     => 'draft',
-			'edit_url'   => admin_url( 'admin.php?page=waq-edit-quote&quote_id=' . $quote_id ),
-			'line_items' => WAQ_Quote_Post_Type::get_line_items( $quote_id ),
+			'edit_url'   => admin_url( 'admin.php?page=ysqd-edit-quote&quote_id=' . $quote_id ),
+			'line_items' => YSQD_Quote_Post_Type::get_line_items( $quote_id ),
 			'totals'     => $totals,
 		);
 	}

@@ -3,25 +3,25 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Storage for quotes: a hidden custom post type (no default WP edit screen —
- * WAQ_Admin builds a purpose-made line-item UI instead) plus post meta for
+ * YSQD_Admin builds a purpose-made line-item UI instead) plus post meta for
  * line items and totals.
  *
  * Line items snapshot their price/tax at save time rather than referencing
  * live product data, so a quote's numbers never silently drift if a product
  * price changes after the quote was sent — same principle as a real invoice.
  */
-class WAQ_Quote_Post_Type {
+class YSQD_Quote_Post_Type {
 
-	const POST_TYPE = 'waq_quote';
+	const POST_TYPE = 'ysqd_quote';
 
-	const META_CUSTOMER_NAME  = '_waq_customer_name';
-	const META_CUSTOMER_EMAIL = '_waq_customer_email';
-	const META_REQUEST_TEXT   = '_waq_request_text';
-	const META_LINE_ITEMS     = '_waq_line_items';
-	const META_QUOTE_NUMBER   = '_waq_quote_number';
-	const META_TOTALS         = '_waq_totals';
+	const META_CUSTOMER_NAME  = '_ysqd_customer_name';
+	const META_CUSTOMER_EMAIL = '_ysqd_customer_email';
+	const META_REQUEST_TEXT   = '_ysqd_request_text';
+	const META_LINE_ITEMS     = '_ysqd_line_items';
+	const META_QUOTE_NUMBER   = '_ysqd_quote_number';
+	const META_TOTALS         = '_ysqd_totals';
 
-	const OPTION_QUOTE_COUNTER = 'waq_quote_counter';
+	const OPTION_QUOTE_COUNTER = 'ysqd_quote_counter';
 
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'register' ) );
@@ -31,7 +31,7 @@ class WAQ_Quote_Post_Type {
 		register_post_type(
 			self::POST_TYPE,
 			array(
-				'label'           => __( 'Quotes', 'ai-quotes-for-woocommerce' ),
+				'label'           => __( 'Quotes', 'yuupee-smart-quote-drafting-for-woocommerce' ),
 				'public'          => false,
 				'show_ui'         => false,
 				'show_in_menu'    => false,
@@ -105,7 +105,7 @@ class WAQ_Quote_Post_Type {
 		}
 		$counter = (int) get_option( self::OPTION_QUOTE_COUNTER, 0 ) + 1;
 		update_option( self::OPTION_QUOTE_COUNTER, $counter );
-		$number = WAQ_Settings::get_quote_prefix() . str_pad( (string) $counter, 4, '0', STR_PAD_LEFT );
+		$number = YSQD_Settings::get_quote_prefix() . str_pad( (string) $counter, 4, '0', STR_PAD_LEFT );
 		update_post_meta( $quote_id, self::META_QUOTE_NUMBER, $number );
 		return $number;
 	}

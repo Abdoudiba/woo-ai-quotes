@@ -1,12 +1,13 @@
-=== AI Quotes for WooCommerce ===
+=== Yuupee Smart Quote Drafting for WooCommerce ===
 Contributors: abdoudiba
 Tags: woocommerce, quote, request a quote, ai, b2b
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
+Requires Plugins: woocommerce
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,10 +60,39 @@ yourself. Automatic emailing is on the roadmap.
 Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
+== External services ==
+
+This plugin connects to a third-party AI API to turn a rep's plain-language
+request into a draft list of line items (description + quantity only — see
+"Does this send the quote to the customer automatically?" above for what the
+AI never sees: no prices, no product IDs, no customer data). You choose the
+provider and supply your own API key under WooCommerce → Settings → AI
+Quotes; nothing is sent unless a store rep actively triggers a draft.
+
+* **OpenAI** (if selected as your provider): the request text is sent to
+  OpenAI's Chat Completions API (`api.openai.com`) to generate the draft
+  line items.
+  [Terms of use](https://openai.com/policies/row-terms-of-use/) —
+  [Privacy policy](https://openai.com/policies/privacy-policy/)
+* **Anthropic** (if selected as your provider): the request text is sent to
+  Anthropic's Messages API (`api.anthropic.com`) to generate the draft line
+  items.
+  [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) —
+  [Privacy policy](https://www.anthropic.com/legal/privacy)
+
+Only one provider is called per draft, whichever is configured in settings.
+
 == Changelog ==
 
+= 0.3.0 =
+* Rename: plugin renamed to "Yuupee Smart Quote Drafting for WooCommerce" (from
+  "AI Quotes for WooCommerce") and internal prefix changed `waq_` -> `ysqd_`
+  for distinctiveness and a 4+ character unique prefix.
+* Add: documented third-party AI services (OpenAI, Anthropic) in this readme.
+* Add: `Requires Plugins: woocommerce` header.
+
 = 0.2.0 =
-* Add: REST endpoint (`POST /wp-json/waq/v1/quotes`) exposing the AI-draft
+* Add: REST endpoint (`POST /wp-json/ysqd/v1/quotes`) exposing the AI-draft
   pipeline to external automation — always creates a draft, never a
   finalized quote. Authenticated via WordPress core Application Passwords.
 

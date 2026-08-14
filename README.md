@@ -1,4 +1,4 @@
-# AI Quotes for WooCommerce
+# Yuupee Smart Quote Drafting for WooCommerce
 
 Draft a branded, calculated quote from a plain-language request — checked
 against your real product catalog, with every number computed in PHP, never
@@ -72,15 +72,15 @@ total.
 ## Architecture
 
 ```
-ai-quotes-for-woocommerce.php                    Plugin bootstrap, WooCommerce + vendor/ dependency checks, HPOS compat
+yuupee-smart-quote-drafting-for-woocommerce.php                    Plugin bootstrap, WooCommerce + vendor/ dependency checks, HPOS compat
 composer.json                        Single dependency: dompdf/dompdf (LGPL, bundled)
 includes/
-  class-waq-settings.php             WooCommerce → Settings → AI Quotes: provider/key, company branding
-  class-waq-quote-post-type.php      Storage: hidden CPT + post meta, quote-number assignment
-  class-waq-ai-drafter.php           Request text -> {description, qty} via AI, then matched against the real catalog
-  class-waq-calculator.php           Subtotal/tax/total — the one thing the AI never touches
-  class-waq-pdf.php                  dompdf render + streamed download
-  class-waq-admin.php                All admin screens: list, new-quote intake, line-item editor, form/AJAX handlers
+  class-ysqd-settings.php             WooCommerce → Settings → AI Quotes: provider/key, company branding
+  class-ysqd-quote-post-type.php      Storage: hidden CPT + post meta, quote-number assignment
+  class-ysqd-ai-drafter.php           Request text -> {description, qty} via AI, then matched against the real catalog
+  class-ysqd-calculator.php           Subtotal/tax/total — the one thing the AI never touches
+  class-ysqd-pdf.php                  dompdf render + streamed download
+  class-ysqd-admin.php                All admin screens: list, new-quote intake, line-item editor, form/AJAX handlers
 templates/
   quote.php                          Plain PHP/HTML quote template rendered to PDF
 assets/
@@ -88,7 +88,7 @@ assets/
   admin.css                          Minor admin screen styling
 ```
 
-Data storage: a hidden custom post type (`waq_quote`, no default WP edit
+Data storage: a hidden custom post type (`ysqd_quote`, no default WP edit
 screen — the admin UI is fully custom) plus post meta for line items and
 totals. No custom database tables.
 
@@ -110,7 +110,7 @@ totals. No custom database tables.
 
 ## REST API
 
-`POST /wp-json/waq/v1/quotes` runs the same draft pipeline as the admin
+`POST /wp-json/ysqd/v1/quotes` runs the same draft pipeline as the admin
 "New Quote" screen — AI drafts line items from `request_text`, they're
 matched against the real catalog, totals are computed — and always creates
 a **draft**, never a finalized quote. The route itself is generic (works

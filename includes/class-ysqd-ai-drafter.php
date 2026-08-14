@@ -16,25 +16,25 @@ defined( 'ABSPATH' ) || exit;
  * The rep reviews and edits every row before a quote is finalized — this
  * only produces a starting point, never a final document.
  */
-class WAQ_AI_Drafter {
+class YSQD_AI_Drafter {
 
 	/**
 	 * @return array{items: array, error: string|null}
 	 */
 	public static function draft_from_request( $request_text ) {
-		$provider = WAQ_Settings::get_provider();
-		$api_key  = WAQ_Settings::get_api_key( $provider );
+		$provider = YSQD_Settings::get_provider();
+		$api_key  = YSQD_Settings::get_api_key( $provider );
 
 		if ( '' === $api_key ) {
 			return array(
 				'items' => array(),
-				'error' => __( 'No AI API key configured — set one under WooCommerce → Settings → AI Quotes.', 'ai-quotes-for-woocommerce' ),
+				'error' => __( 'No AI API key configured — set one under WooCommerce → Settings → AI Quotes.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
 			);
 		}
 
 		$raw = 'anthropic' === $provider
-			? self::call_anthropic( $api_key, WAQ_Settings::get_model( $provider ), $request_text )
-			: self::call_openai( $api_key, WAQ_Settings::get_model( $provider ), $request_text );
+			? self::call_anthropic( $api_key, YSQD_Settings::get_model( $provider ), $request_text )
+			: self::call_openai( $api_key, YSQD_Settings::get_model( $provider ), $request_text );
 
 		if ( is_wp_error( $raw ) ) {
 			return array( 'items' => array(), 'error' => $raw->get_error_message() );
@@ -44,7 +44,7 @@ class WAQ_AI_Drafter {
 		if ( null === $items ) {
 			return array(
 				'items' => array(),
-				'error' => __( 'The AI response could not be parsed as a line-item list. Try rephrasing the request.', 'ai-quotes-for-woocommerce' ),
+				'error' => __( 'The AI response could not be parsed as a line-item list. Try rephrasing the request.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
 			);
 		}
 
@@ -95,8 +95,8 @@ class WAQ_AI_Drafter {
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( $code >= 300 ) {
-			$message = $body['error']['message'] ?? __( 'OpenAI request failed.', 'ai-quotes-for-woocommerce' );
-			return new WP_Error( 'waq_openai_error', $message );
+			$message = $body['error']['message'] ?? __( 'OpenAI request failed.', 'yuupee-smart-quote-drafting-for-woocommerce' );
+			return new WP_Error( 'ysqd_openai_error', $message );
 		}
 
 		return $body['choices'][0]['message']['content'] ?? '';
@@ -136,8 +136,8 @@ class WAQ_AI_Drafter {
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( $code >= 300 ) {
-			$message = $body['error']['message'] ?? __( 'Anthropic request failed.', 'ai-quotes-for-woocommerce' );
-			return new WP_Error( 'waq_anthropic_error', $message );
+			$message = $body['error']['message'] ?? __( 'Anthropic request failed.', 'yuupee-smart-quote-drafting-for-woocommerce' );
+			return new WP_Error( 'ysqd_anthropic_error', $message );
 		}
 
 		return $body['content'][0]['text'] ?? '';

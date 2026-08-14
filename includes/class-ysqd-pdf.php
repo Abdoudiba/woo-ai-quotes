@@ -9,11 +9,11 @@ use Dompdf\Options;
  * templates/quote.php. No external HTTP calls at render time except an
  * optional logo image URL the site owner configured themselves.
  */
-class WAQ_PDF {
+class YSQD_PDF {
 
 	public static function stream( $quote_id ) {
 		$pdf    = self::render( $quote_id );
-		$number = WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: 'draft';
+		$number = YSQD_Quote_Post_Type::get_quote_number( $quote_id ) ?: 'draft';
 
 		nocache_headers();
 		header( 'Content-Type: application/pdf' );
@@ -37,17 +37,17 @@ class WAQ_PDF {
 	}
 
 	private static function build_html( $quote_id ) {
-		$company         = WAQ_Settings::get_company();
-		$customer        = WAQ_Quote_Post_Type::get_customer( $quote_id );
-		$line_items      = WAQ_Quote_Post_Type::get_line_items( $quote_id );
-		$totals          = WAQ_Quote_Post_Type::get_totals( $quote_id );
-		$quote_number    = WAQ_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'DRAFT', 'ai-quotes-for-woocommerce' );
+		$company         = YSQD_Settings::get_company();
+		$customer        = YSQD_Quote_Post_Type::get_customer( $quote_id );
+		$line_items      = YSQD_Quote_Post_Type::get_line_items( $quote_id );
+		$totals          = YSQD_Quote_Post_Type::get_totals( $quote_id );
+		$quote_number    = YSQD_Quote_Post_Type::get_quote_number( $quote_id ) ?: __( 'DRAFT', 'yuupee-smart-quote-drafting-for-woocommerce' );
 		$date            = get_the_date( '', $quote_id );
-		$payment_details = WAQ_Settings::get_payment_details();
-		$footer          = WAQ_Settings::get_quote_footer();
+		$payment_details = YSQD_Settings::get_payment_details();
+		$footer          = YSQD_Settings::get_quote_footer();
 
 		ob_start();
-		include WAQ_PLUGIN_DIR . 'templates/quote.php';
+		include YSQD_PLUGIN_DIR . 'templates/quote.php';
 		return ob_get_clean();
 	}
 }

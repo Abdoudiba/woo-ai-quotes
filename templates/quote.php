@@ -1,6 +1,6 @@
 <?php
 /**
- * Quote PDF template. Rendered via output buffering in WAQ_PDF::build_html()
+ * Quote PDF template. Rendered via output buffering in YSQD_PDF::build_html()
  * with these variables in scope: $company, $customer, $line_items, $totals,
  * $quote_number, $date, $payment_details, $footer, $currency_symbol.
  *
@@ -14,6 +14,12 @@ defined( 'ABSPATH' ) || exit;
 <html>
 <head>
 <meta charset="utf-8">
+<!--
+	Inline by necessity, not oversight: this markup is never served as a WordPress
+	page (no wp_head/wp_enqueue_scripts hook fires for it) — it's a standalone HTML
+	string built by build_html() above and fed straight into Dompdf::loadHtml() to
+	rasterize a PDF. wp_enqueue_style has nothing to attach to here.
+-->
 <style>
 	body {
 		font-family: 'DejaVu Sans', sans-serif;
@@ -79,7 +85,7 @@ defined( 'ABSPATH' ) || exit;
 					</div>
 				</td>
 				<td style="width: 45%;">
-					<div class="doc-title"><?php esc_html_e( 'QUOTE', 'ai-quotes-for-woocommerce' ); ?></div>
+					<div class="doc-title"><?php esc_html_e( 'QUOTE', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></div>
 					<div class="doc-meta">
 						<?php echo esc_html( $quote_number ); ?><br>
 						<?php echo esc_html( $date ); ?>
@@ -91,7 +97,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php if ( ! empty( $customer['name'] ) ) : ?>
 	<div class="customer-block">
-		<div class="customer-label"><?php esc_html_e( 'Prepared for', 'ai-quotes-for-woocommerce' ); ?></div>
+		<div class="customer-label"><?php esc_html_e( 'Prepared for', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></div>
 		<div class="customer-name"><?php echo esc_html( $customer['name'] ); ?></div>
 		<?php if ( ! empty( $customer['email'] ) ) : ?>
 			<div class="company-details"><?php echo esc_html( $customer['email'] ); ?></div>
@@ -102,10 +108,10 @@ defined( 'ABSPATH' ) || exit;
 	<table class="items">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Description', 'ai-quotes-for-woocommerce' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Qty', 'ai-quotes-for-woocommerce' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Unit price', 'ai-quotes-for-woocommerce' ); ?></th>
-				<th class="num"><?php esc_html_e( 'Line total', 'ai-quotes-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Description', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Qty', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Unit price', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></th>
+				<th class="num"><?php esc_html_e( 'Line total', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -123,15 +129,15 @@ defined( 'ABSPATH' ) || exit;
 	<div class="totals">
 		<table>
 			<tr>
-				<td class="label"><?php esc_html_e( 'Subtotal', 'ai-quotes-for-woocommerce' ); ?></td>
+				<td class="label"><?php esc_html_e( 'Subtotal', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['subtotal'] ) ); ?></td>
 			</tr>
 			<tr>
-				<td class="label"><?php esc_html_e( 'Tax', 'ai-quotes-for-woocommerce' ); ?></td>
+				<td class="label"><?php esc_html_e( 'Tax', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['tax'] ) ); ?></td>
 			</tr>
 			<tr class="grand">
-				<td><?php esc_html_e( 'Total', 'ai-quotes-for-woocommerce' ); ?></td>
+				<td><?php esc_html_e( 'Total', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></td>
 				<td class="num"><?php echo wp_kses_post( wc_price( $totals['total'] ) ); ?></td>
 			</tr>
 		</table>
