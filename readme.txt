@@ -1,13 +1,13 @@
 === Yuupee Smart Quote Drafting for WooCommerce ===
 Contributors: abdoudiba
 Tags: woocommerce, quote, request a quote, ai, b2b
-Requires at least: 6.0
+Requires at least: 7.0
 Tested up to: 7.0
 Requires PHP: 7.4
 Requires Plugins: woocommerce
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,14 +32,14 @@ price.
 * Calculation done in PHP from real WooCommerce tax data, never by the AI.
 * Branded PDF output — your company name, address, logo, and payment details, configured once in settings.
 * Finalized quotes lock in their numbers, so they don't change if a product's price changes later.
-* Bring your own OpenAI or Anthropic API key — billed to your own account.
+* Drafts using whichever AI provider you've already connected under Settings → Connectors (WordPress's built-in AI Client) — no separate API key to manage in this plugin.
 
 == Installation ==
 
-1. Requires WooCommerce active.
+1. Requires WooCommerce active, and WordPress 7.0+ with an AI provider connected under Settings → Connectors (Anthropic, Google, or OpenAI ship built into WordPress 7.0).
 2. If installing from a release zip, the PDF library is already bundled. If running from source, run `composer install --no-dev` in the plugin directory first.
 3. Upload to `/wp-content/plugins/` or install via Plugins → Add New → Upload. Activate.
-4. Set your AI provider and company details under WooCommerce → Settings → AI Quotes.
+4. Set your company details under WooCommerce → Settings → AI Quotes.
 5. Use the AI Quotes menu to draft your first quote.
 
 == Frequently Asked Questions ==
@@ -60,29 +60,50 @@ yourself. Automatic emailing is on the roadmap.
 Every drafted line is fully editable before you finalize — fix the
 description, price, or swap in the correct product from the search dropdown.
 
+= Which AI provider does this use? =
+
+Whichever one you've connected under Settings → Connectors — this plugin
+has no AI integration of its own. It calls WordPress's built-in AI Client
+(`wp_ai_client_prompt()`, core since WordPress 7.0), which routes the
+request to your connected provider. If no provider is connected, AI
+drafting is disabled and you can still build a quote manually.
+
 == External services ==
 
-This plugin connects to a third-party AI API to turn a rep's plain-language
-request into a draft list of line items (description + quantity only — see
-"Does this send the quote to the customer automatically?" above for what the
-AI never sees: no prices, no product IDs, no customer data). You choose the
-provider and supply your own API key under WooCommerce → Settings → AI
-Quotes; nothing is sent unless a store rep actively triggers a draft.
+This plugin turns a rep's plain-language request into a draft list of line
+items (description + quantity only — no prices, no product IDs, no customer
+data) by calling WordPress's built-in AI Client, which forwards the request
+text to whichever AI provider the site owner has connected under Settings →
+Connectors. Nothing is sent unless a store rep actively triggers a draft.
 
-* **OpenAI** (if selected as your provider): the request text is sent to
-  OpenAI's Chat Completions API (`api.openai.com`) to generate the draft
-  line items.
+This plugin does not choose or hardcode a provider, and ships no API keys —
+credentials are entered and managed by WordPress core, not this plugin. The
+built-in connectors available in WordPress 7.0 are:
+
+* **OpenAI** —
   [Terms of use](https://openai.com/policies/row-terms-of-use/) —
   [Privacy policy](https://openai.com/policies/privacy-policy/)
-* **Anthropic** (if selected as your provider): the request text is sent to
-  Anthropic's Messages API (`api.anthropic.com`) to generate the draft line
-  items.
+* **Anthropic** —
   [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) —
   [Privacy policy](https://www.anthropic.com/legal/privacy)
+* **Google** —
+  [Terms of service](https://policies.google.com/terms) —
+  [Privacy policy](https://policies.google.com/privacy)
 
-Only one provider is called per draft, whichever is configured in settings.
+Only whichever provider the site owner has connected is ever called.
 
 == Changelog ==
+
+= 0.4.0 =
+* Change: AI drafting now goes through WordPress's built-in AI Client
+  (`wp_ai_client_prompt()`) instead of calling OpenAI/Anthropic directly.
+  The site owner connects a provider under Settings → Connectors; this
+  plugin no longer stores or asks for an API key. `Requires at least`
+  raised to WordPress 7.0 accordingly.
+* Fix: quote.php's PDF template markup is a standalone HTML string handed
+  to Dompdf, never a WordPress-served page — clarified in code comments
+  after a review flagged its inline `<style>` block as a missing
+  wp_enqueue_style() call.
 
 = 0.3.0 =
 * Rename: plugin renamed to "Yuupee Smart Quote Drafting for WooCommerce" (from

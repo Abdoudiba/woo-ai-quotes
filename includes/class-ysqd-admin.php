@@ -102,13 +102,13 @@ class YSQD_Admin {
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=ysqd-new-quote' ) ); ?>" class="page-title-action"><?php esc_html_e( 'New Quote', 'yuupee-smart-quote-drafting-for-woocommerce' ); ?></a>
 			<hr class="wp-header-end">
 
-			<?php if ( ! YSQD_Settings::is_configured() ) : ?>
+			<?php if ( ! YSQD_AI_Drafter::is_available() ) : ?>
 				<div class="notice notice-warning"><p>
 					<?php
 					printf(
 						/* translators: %s: settings link */
-						esc_html__( 'No AI provider configured yet — set an API key under %s before drafting a quote.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-						'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=ysqd' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'yuupee-smart-quote-drafting-for-woocommerce' ) . '</a>'
+						esc_html__( 'No AI provider connected yet — connect one under %s before drafting a quote.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
+						'<a href="' . esc_url( admin_url( 'options-general.php' ) ) . '">' . esc_html__( 'Settings → Connectors', 'yuupee-smart-quote-drafting-for-woocommerce' ) . '</a>'
 					);
 					?>
 				</p></div>
@@ -199,13 +199,13 @@ class YSQD_Admin {
 				</table>
 
 				<?php submit_button( __( 'Create Quote', 'yuupee-smart-quote-drafting-for-woocommerce' ) ); ?>
-				<?php if ( ! YSQD_Settings::is_configured() ) : ?>
+				<?php if ( ! YSQD_AI_Drafter::is_available() ) : ?>
 					<p class="description">
 						<?php
 						printf(
 							/* translators: %s: settings link */
-							esc_html__( 'No AI provider configured — set one under %s to enable AI drafting, or leave the request blank to build the quote manually.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-							'<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=ysqd' ) ) . '">' . esc_html__( 'WooCommerce → Settings → AI Quotes', 'yuupee-smart-quote-drafting-for-woocommerce' ) . '</a>'
+							esc_html__( 'No AI provider connected — connect one under %s to enable AI drafting, or leave the request blank to build the quote manually.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
+							'<a href="' . esc_url( admin_url( 'options-general.php' ) ) . '">' . esc_html__( 'Settings → Connectors', 'yuupee-smart-quote-drafting-for-woocommerce' ) . '</a>'
 						);
 						?>
 					</p>

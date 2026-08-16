@@ -64,8 +64,8 @@ class YSQD_REST {
 			return new WP_Error( 'ysqd_missing_request_text', __( 'request_text is required.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
-		if ( ! YSQD_Settings::is_configured() ) {
-			return new WP_Error( 'ysqd_ai_not_configured', __( 'No AI provider configured — set one under WooCommerce → Settings → AI Quotes.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 400 ) );
+		if ( ! YSQD_AI_Drafter::is_available() ) {
+			return new WP_Error( 'ysqd_ai_not_configured', __( 'No AI provider connected — connect one under Settings → Connectors.', 'yuupee-smart-quote-drafting-for-woocommerce' ), array( 'status' => 400 ) );
 		}
 
 		$quote_id = wp_insert_post(

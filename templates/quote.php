@@ -115,12 +115,12 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ( $line_items as $item ) : ?>
+			<?php foreach ( $line_items as $ysqd_item ) : ?>
 				<tr>
-					<td><?php echo esc_html( $item['description'] ); ?></td>
-					<td class="num"><?php echo esc_html( rtrim( rtrim( number_format( (float) $item['qty'], 2 ), '0' ), '.' ) ); ?></td>
-					<td class="num"><?php echo wp_kses_post( wc_price( $item['unit_price'] ) ); ?></td>
-					<td class="num"><?php echo wp_kses_post( wc_price( (float) $item['unit_price'] * (float) $item['qty'] ) ); ?></td>
+					<td><?php echo esc_html( $ysqd_item['description'] ); ?></td>
+					<td class="num"><?php echo esc_html( rtrim( rtrim( number_format( (float) $ysqd_item['qty'], 2 ), '0' ), '.' ) ); ?></td>
+					<td class="num"><?php echo wp_kses_post( wc_price( $ysqd_item['unit_price'] ) ); ?></td>
+					<td class="num"><?php echo wp_kses_post( wc_price( (float) $ysqd_item['unit_price'] * (float) $ysqd_item['qty'] ) ); ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

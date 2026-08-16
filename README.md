@@ -39,14 +39,16 @@ total.
 - **Numbers lock in at finalization**: a finalized quote snapshots its line
   totals, so it doesn't silently change if a product's price changes later —
   same principle as a real invoice.
-- **Bring your own AI key** (OpenAI or Anthropic) — usage is billed to the
-  store owner's own account, not marked up by this plugin.
+- **Uses the site's connected AI provider** via WordPress's built-in AI
+  Client (`wp_ai_client_prompt()`, core since WP 7.0) — no API key stored or
+  managed by this plugin; the site owner connects a provider once under
+  Settings → Connectors and every AI-using plugin shares it.
 
 ## Not in Phase 1 (by design — see roadmap)
 
 - **WhatsApp intake.** Phase 1 deliberately ships the AI-drafting core with
-  zero external API setup beyond the AI provider key, so it's usable the
-  moment it's installed. This plugin now exposes the REST hook any channel
+  zero setup of its own beyond an AI provider connected in WordPress core,
+  so it's usable the moment it's installed. This plugin now exposes the REST hook any channel
   integration needs (see "REST API" below) — the actual WhatsApp wiring is
   external, not part of this plugin.
 - **Emailing the PDF to the customer.** v1 downloads a PDF for the rep to
@@ -65,8 +67,9 @@ total.
    notice and no-ops if `vendor/` is missing, rather than fatal-erroring.
 3. Upload to `wp-content/plugins/`, or zip and use Plugins → Add New →
    Upload Plugin. Activate.
-4. Configure an AI provider and company details under **WooCommerce →
-   Settings → AI Quotes**.
+4. Connect an AI provider (Anthropic, Google, or OpenAI ship built into
+   WordPress 7.0) under **Settings → Connectors**, and set company details
+   under **WooCommerce → Settings → AI Quotes**.
 5. Use the **AI Quotes** admin menu to draft, edit, and finalize quotes.
 
 ## Architecture
@@ -75,7 +78,7 @@ total.
 yuupee-smart-quote-drafting-for-woocommerce.php                    Plugin bootstrap, WooCommerce + vendor/ dependency checks, HPOS compat
 composer.json                        Single dependency: dompdf/dompdf (LGPL, bundled)
 includes/
-  class-ysqd-settings.php             WooCommerce → Settings → AI Quotes: provider/key, company branding
+  class-ysqd-settings.php             WooCommerce → Settings → AI Quotes: company branding
   class-ysqd-quote-post-type.php      Storage: hidden CPT + post meta, quote-number assignment
   class-ysqd-ai-drafter.php           Request text -> {description, qty} via AI, then matched against the real catalog
   class-ysqd-calculator.php           Subtotal/tax/total — the one thing the AI never touches
@@ -101,9 +104,6 @@ totals. No custom database tables.
 - **Tax uses the store's base-location rate**, not a customer-specific
   checkout address — the standard simplification for a seller-drafted quote
   (not a live cart), but worth knowing if the store has many tax zones.
-- **API keys stored as WordPress options**, not a secrets manager — standard
-  practice for WP plugins, but worth knowing if the site's threat model
-  calls for more.
 - **Single-site tested only** so far — built without a live WooCommerce
   install available; needs the same real-install test pass woo-geo-catalog
   went through before this should be trusted for anything customer-facing.

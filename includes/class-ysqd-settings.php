@@ -2,18 +2,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Adds an "AI Quotes" tab under WooCommerce → Settings: the AI provider/key
- * used to draft line items, and the company details/branding printed on
- * every generated quote. Unlike a single-business tool, none of this can be
- * hardcoded — every install belongs to a different company.
+ * Adds an "AI Quotes" tab under WooCommerce → Settings for the company
+ * details/branding printed on every generated quote. Unlike a
+ * single-business tool, none of this can be hardcoded — every install
+ * belongs to a different company. The AI provider itself is configured
+ * separately by the site owner under Settings → Connectors (WP AI Client,
+ * core since WordPress 7.0) — see YSQD_AI_Drafter::is_available().
  */
 class YSQD_Settings {
 
-	const OPTION_AI_PROVIDER       = 'ysqd_ai_provider';
-	const OPTION_OPENAI_KEY        = 'ysqd_openai_api_key';
-	const OPTION_OPENAI_MODEL      = 'ysqd_openai_model';
-	const OPTION_ANTHROPIC_KEY     = 'ysqd_anthropic_api_key';
-	const OPTION_ANTHROPIC_MODEL   = 'ysqd_anthropic_model';
 	const OPTION_COMPANY_NAME      = 'ysqd_company_name';
 	const OPTION_COMPANY_ADDRESS   = 'ysqd_company_address';
 	const OPTION_COMPANY_PHONE     = 'ysqd_company_phone';
@@ -37,52 +34,6 @@ class YSQD_Settings {
 
 	private static function fields() {
 		return array(
-			array(
-				'title' => __( 'AI provider', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'type'  => 'title',
-				'desc'  => __( 'Bring your own API key — quotes are drafted using your account, so usage is billed to you directly by the provider, not marked up by this plugin.', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'    => 'ysqd_section_ai_title',
-			),
-			array(
-				'title'    => __( 'Provider', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'       => self::OPTION_AI_PROVIDER,
-				'type'     => 'select',
-				'options'  => array(
-					'openai'    => __( 'OpenAI', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-					'anthropic' => __( 'Anthropic (Claude)', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				),
-				'default'  => 'openai',
-			),
-			array(
-				'title'    => __( 'OpenAI API key', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'       => self::OPTION_OPENAI_KEY,
-				'type'     => 'password',
-				'css'      => 'width:400px;',
-			),
-			array(
-				'title'    => __( 'OpenAI model', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'       => self::OPTION_OPENAI_MODEL,
-				'type'     => 'text',
-				'default'  => 'gpt-4o-mini',
-				'css'      => 'width:250px;',
-			),
-			array(
-				'title'    => __( 'Anthropic API key', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'       => self::OPTION_ANTHROPIC_KEY,
-				'type'     => 'password',
-				'css'      => 'width:400px;',
-			),
-			array(
-				'title'    => __( 'Anthropic model', 'yuupee-smart-quote-drafting-for-woocommerce' ),
-				'id'       => self::OPTION_ANTHROPIC_MODEL,
-				'type'     => 'text',
-				'default'  => 'claude-haiku-4-5-20251001',
-				'css'      => 'width:250px;',
-			),
-			array(
-				'type' => 'sectionend',
-				'id'   => 'ysqd_section_ai_end',
-			),
 			array(
 				'title' => __( 'Company details', 'yuupee-smart-quote-drafting-for-woocommerce' ),
 				'type'  => 'title',
@@ -170,24 +121,6 @@ class YSQD_Settings {
 		woocommerce_update_options( self::fields() );
 	}
 
-	public static function get_provider() {
-		return get_option( self::OPTION_AI_PROVIDER, 'openai' );
-	}
-
-	public static function get_api_key( $provider = null ) {
-		$provider = $provider ?: self::get_provider();
-		return 'anthropic' === $provider
-			? get_option( self::OPTION_ANTHROPIC_KEY, '' )
-			: get_option( self::OPTION_OPENAI_KEY, '' );
-	}
-
-	public static function get_model( $provider = null ) {
-		$provider = $provider ?: self::get_provider();
-		return 'anthropic' === $provider
-			? get_option( self::OPTION_ANTHROPIC_MODEL, 'claude-haiku-4-5-20251001' )
-			: get_option( self::OPTION_OPENAI_MODEL, 'gpt-4o-mini' );
-	}
-
 	public static function get_company() {
 		return array(
 			'name'    => get_option( self::OPTION_COMPANY_NAME, get_bloginfo( 'name' ) ),
@@ -212,9 +145,5 @@ class YSQD_Settings {
 
 	public static function get_quote_prefix() {
 		return get_option( self::OPTION_QUOTE_PREFIX, 'Q-' );
-	}
-
-	public static function is_configured() {
-		return '' !== self::get_api_key();
 	}
 }
