@@ -14,59 +14,20 @@ defined( 'ABSPATH' ) || exit;
 <html>
 <head>
 <meta charset="utf-8">
-<!--
-	Inline by necessity, not oversight: this markup is never served as a WordPress
-	page (no wp_head/wp_enqueue_scripts hook fires for it) — it's a standalone HTML
-	string built by build_html() above and fed straight into Dompdf::loadHtml() to
-	rasterize a PDF. wp_enqueue_style has nothing to attach to here.
--->
-<style>
-	body {
-		font-family: 'DejaVu Sans', sans-serif;
-		font-size: 11px;
-		color: #26302c;
-	}
-	.header {
-		width: 100%;
-		border-bottom: 2px solid #26302c;
-		padding-bottom: 12px;
-		margin-bottom: 18px;
-	}
-	.header table { width: 100%; border-collapse: collapse; }
-	.header td { vertical-align: top; }
-	.logo img { max-height: 50px; }
-	.company-name { font-size: 15px; font-weight: bold; margin-bottom: 4px; }
-	.company-details { font-size: 9.5px; color: #55605c; line-height: 1.5; }
-	.doc-title { font-size: 22px; font-weight: bold; text-align: right; letter-spacing: 1px; }
-	.doc-meta { text-align: right; font-size: 9.5px; color: #55605c; margin-top: 6px; line-height: 1.6; }
-	.customer-block { margin-bottom: 18px; }
-	.customer-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #8a938e; margin-bottom: 3px; }
-	.customer-name { font-size: 12px; font-weight: bold; }
-	table.items { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-	table.items th {
-		text-align: left;
-		font-size: 8.5px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		color: #8a938e;
-		border-bottom: 1px solid #cfd6d0;
-		padding: 6px 4px;
-	}
-	table.items td {
-		padding: 7px 4px;
-		border-bottom: 1px solid #e6e9e5;
-		font-size: 10.5px;
-	}
-	table.items .num { text-align: right; }
-	.totals { width: 260px; float: right; margin-top: 10px; }
-	.totals table { width: 100%; border-collapse: collapse; }
-	.totals td { padding: 4px 0; font-size: 10.5px; }
-	.totals .label { color: #55605c; }
-	.totals .num { text-align: right; }
-	.totals .grand td { border-top: 1px solid #26302c; padding-top: 7px; font-weight: bold; font-size: 12px; }
-	.footer { clear: both; margin-top: 60px; padding-top: 14px; border-top: 1px solid #e6e9e5; font-size: 9px; color: #8a938e; line-height: 1.6; }
-	.footer .payment { margin-bottom: 10px; white-space: pre-line; }
-</style>
+<?php
+/**
+ * The stylesheet lives in its own file, assets/css/quote-pdf.css, and its
+ * contents are read and echoed here in PHP rather than written as literal
+ * template HTML — this markup is never served as a WordPress page (no
+ * wp_head/wp_enqueue_scripts hook fires for it, it's a standalone string
+ * fed straight into Dompdf::loadHtml() to rasterize a PDF), so
+ * wp_enqueue_style() has no page-load context to ever actually print a
+ * registered handle into.
+ */
+// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_get_contents -- local plugin asset, not user input; no filesystem API is available/appropriate in this non-admin PDF-render context.
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS, not HTML, from a static file this plugin ships; esc_html() would corrupt selectors like `>` and is the wrong escaping context for a stylesheet body.
+echo '<style>' . file_get_contents( YSQD_PLUGIN_DIR . 'assets/css/quote-pdf.css' ) . '</style>';
+?>
 </head>
 <body>
 

@@ -7,7 +7,7 @@ Requires PHP: 7.4
 Requires Plugins: woocommerce
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,14 @@ built-in connectors available in WordPress 7.0 are:
 Only whichever provider the site owner has connected is ever called.
 
 == Changelog ==
+
+= 0.4.1 =
+* Fix: the PDF template's stylesheet is no longer written as literal
+  template HTML — it's read from its own file (`assets/css/quote-pdf.css`)
+  and echoed in PHP, which WordPress.org's Plugin Check tool now confirms
+  triggers zero enqueue-related findings (the plain `<style>` block, and a
+  `<link rel="stylesheet">` alternative, both did). Behavior and rendered
+  output are unchanged — verified against a real generated PDF.
 
 = 0.4.0 =
 * Change: AI drafting now goes through WordPress's built-in AI Client

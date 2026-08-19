@@ -3,7 +3,7 @@
  * Plugin Name:       Yuupee Smart Quote Drafting for WooCommerce
  * Plugin URI:         https://github.com/Abdoudiba/yuupee-smart-quote-drafting-for-woocommerce
  * Description:        Draft a branded, calculated quote from a plain-language request against your real product catalog — AI drafts the line items, the plugin computes every number.
- * Version:            0.4.0
+ * Version:            0.4.1
  * Requires at least:  7.0
  * Requires PHP:       7.4
  * Requires Plugins:   woocommerce
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'YSQD_VERSION', '0.4.0' );
+define( 'YSQD_VERSION', '0.4.1' );
 define( 'YSQD_PLUGIN_FILE', __FILE__ );
 define( 'YSQD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'YSQD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
