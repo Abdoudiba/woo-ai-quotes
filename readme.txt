@@ -2,12 +2,12 @@
 Contributors: abdoudiba
 Tags: woocommerce, quote, request a quote, ai, b2b
 Requires at least: 7.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 Requires Plugins: woocommerce
 WC requires at least: 8.0
 WC tested up to: 9.0
-Stable tag: 0.4.1
+Stable tag: 0.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,12 @@ built-in connectors available in WordPress 7.0 are:
 Only whichever provider the site owner has connected is ever called.
 
 == Changelog ==
+
+= 0.4.2 =
+* Fix: "Tested up to" bumped to 7.1 (was stale at 7.0, flagged by Plugin Check).
+* No functional changes — re-confirmed via a fresh Plugin Check run that the
+  0.4.1 PDF-template stylesheet fix (see below) still triggers zero
+  enqueue-related findings.
 
 = 0.4.1 =
 * Fix: the PDF template's stylesheet is no longer written as literal
